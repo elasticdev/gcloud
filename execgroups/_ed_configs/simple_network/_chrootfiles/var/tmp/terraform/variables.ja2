@@ -1,0 +1,19 @@
+variable "project_id" {
+    description = "project_id"
+    default = "{{ GOOGLE_COMPUTE_PROJECT_ID }}"
+}
+
+variable "network_name" {
+    description = "Name of the network"
+    default = "{{ NETWORK_NAME }}"
+}
+
+variable "google_default_region" {
+    description = "google default region"
+    default = "{{ GOOGLE_DEFAULT_REGION }}"
+}
+
+variable "routing_mode" {
+    description = "Routing mode"
+    default = "GLOBAL"
+}

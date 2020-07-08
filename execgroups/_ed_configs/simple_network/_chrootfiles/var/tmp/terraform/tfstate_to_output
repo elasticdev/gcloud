@@ -30,8 +30,8 @@ for resource in data["resources"]:
         network_resource["resource_type"] = "network"
         network_resource["main"] = True
 
-        network_resource["region"] = os.environ["GOOGLE_DEFAULT_REGION"]
-        network_resource["google_default_region"] = os.environ["GOOGLE_DEFAULT_REGION"]
+        if os.environ.get("GOOGLE_DEFAULT_REGION"):
+            network_resource["google_default_region"] = os.environ["GOOGLE_DEFAULT_REGION"]
 
         results = [ network_resource ]
 
@@ -55,6 +55,9 @@ for resource in data["resources"]:
         _instance["provider"] = "google_compute"
         _instance["resource_type"] = _type.split("google_compute_")[1]
         _instance["type"] = _type
+
+        if os.environ.get("GOOGLE_DEFAULT_REGION"):
+            _instance["google_default_region"] = os.environ["GOOGLE_DEFAULT_REGION"]
 
         results.append(_instance)
 

@@ -1,0 +1,10 @@
+export TERRAFORM_RESOURCE_TYPE=google_compute_instance
+export RESOURCE_TYPE=server
+export CLOUD_PROVIDER=google_compute
+export VPC_NAME=test
+export DISKSIZE=15
+export HOSTNAME_SUFFIX=test
+export INSTANCE_TYPE=f1-micro
+export IMAGE=debian-cloud/debian-9
+export DEFAULT_REGION=us-west1
+export ZONE=us-west1-b

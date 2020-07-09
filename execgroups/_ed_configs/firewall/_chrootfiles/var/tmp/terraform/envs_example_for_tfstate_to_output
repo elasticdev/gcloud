@@ -1,0 +1,4 @@
+export TERRAFORM_RESOURCE_TYPE=google_compute_firewall
+export RESOURCE_TYPE=firewall
+export CLOUD_PROVIDER=google_compute
+export VPC_NAME=test

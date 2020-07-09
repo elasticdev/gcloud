@@ -1,0 +1,40 @@
+variable "project_id" {
+    description = "project_id"
+    default = "{{ GOOGLE_COMPUTE_PROJECT_ID }}"
+}
+
+variable "vpc_name" {
+    description = "Name of the vpc"
+    default = "{{ VPC_NAME }}"
+}
+
+variable "zone" {
+    description = "zone"
+    default = {{ ZONE }}
+}
+
+variable "default_region" {
+    description = "google default region"
+    default = {{ DEFAULT_REGION }}
+    default = "us-west1"
+}
+
+variable "disk_size" {
+    description = "disk size in gb"
+    default = {{ DISKSIZE }}
+}
+
+variable "hostname_suffix" {
+    description = "hostname_suffix"
+    default = {{ HOSTNAME_SUFFIX }}
+}
+
+variable "instance_type" {
+    description = "instance_type"
+    default = {{ INSTANCE_TYPE }}
+}
+
+variable "image" {
+    description = "image"
+    default = {{ IMAGE }}
+}

@@ -1,5 +1,5 @@
-variable "project_id" {
-    description = "project_id"
+variable "gcloud_project" {
+    description = "gcloud_project"
     default = "testproject-11111"
 }
 

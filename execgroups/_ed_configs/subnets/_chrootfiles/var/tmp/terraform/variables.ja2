@@ -1,6 +1,6 @@
-variable "project_id" {
-    description = "project_id"
-    default = "{{ GOOGLE_COMPUTE_PROJECT_ID }}"
+variable "gcloud_project" {
+    description = "gcloud_project"
+    default = "{{ GCLOUD_PROJECT }}"
 }
 
 variable "vpc_name" {
@@ -18,7 +18,7 @@ variable "private_cidr" {
     default = "{{ PRIVATE_CIDR }}"
 }
 
-variable "default_region" {
+variable "gcloud_region" {
     description = "google default region"
-    default = "{{ DEFAULT_REGION }}"
+    default = "{{ GCLOUD_REGION }}"
 }

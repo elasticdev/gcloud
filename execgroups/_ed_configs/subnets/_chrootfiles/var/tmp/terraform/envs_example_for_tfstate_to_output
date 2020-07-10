@@ -2,5 +2,5 @@ export TERRAFORM_RESOURCE_TYPE=google_compute_subnetwork
 export RESOURCE_TYPE=subnet
 export CLOUD_PROVIDER=google_compute
 export VPC_NAME=test
-export DEFAULT_REGION=us-west1
+export GCLOUD_REGION=us-west1
 export RESOURCE_MAP_KEYS=ip_cidr_range:cidr,provider:cloud_provider

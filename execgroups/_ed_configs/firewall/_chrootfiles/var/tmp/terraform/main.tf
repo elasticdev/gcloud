@@ -1,6 +1,6 @@
 resource "google_compute_firewall" "internal" {
 
-  project = "${var.project_id}"
+  project = "${var.gcloud_project}"
   name    = "${var.vpc_name}-fw-internal"
   network = "${var.vpc_name}"
 
@@ -26,7 +26,7 @@ resource "google_compute_firewall" "internal" {
 }
 
 resource "google_compute_firewall" "http" {
-  project = "${var.project_id}"
+  project = "${var.gcloud_project}"
   name    = "${var.vpc_name}-fw-http"
   network = "${var.vpc_name}"
 
@@ -39,7 +39,7 @@ resource "google_compute_firewall" "http" {
 }
 
 resource "google_compute_firewall" "bastion" {
-  project = "${var.project_id}"
+  project = "${var.gcloud_project}"
   name    = "${var.vpc_name}-fw-bastion"
   network = "${var.vpc_name}"
 

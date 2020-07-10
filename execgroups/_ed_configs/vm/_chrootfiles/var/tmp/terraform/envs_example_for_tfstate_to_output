@@ -6,5 +6,5 @@ export DISKSIZE=15
 export HOSTNAME_SUFFIX=test
 export INSTANCE_TYPE=f1-micro
 export IMAGE=debian-cloud/debian-9
-export DEFAULT_REGION=us-west1
-export ZONE=us-west1-b
+export GCLOUD_REGION=us-west1
+export GCLOUD_ZONE=us-west1-b

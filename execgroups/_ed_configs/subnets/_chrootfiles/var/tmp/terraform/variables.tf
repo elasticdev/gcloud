@@ -1,5 +1,5 @@
-variable "project_id" {
-    description = "project_id"
+variable "gcloud_project" {
+    description = "gcloud_project"
     default = "testproject-11111"
 }
 
@@ -18,7 +18,7 @@ variable "private_cidr" {
     default = "10.10.20.0/24"
 }
 
-variable "default_region" {
+variable "gcloud_region" {
     description = "default region"
     default = "us-west1"
 }

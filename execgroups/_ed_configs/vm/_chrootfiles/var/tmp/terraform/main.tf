@@ -1,8 +1,8 @@
 resource "google_compute_instance" "default" {
-  project       = "${var.project_id}"
-  name          = "${var.vpc_name}-${var.default_region}-instance1"
+  project       = "${var.gcloud_project}"
+  name          = "${var.vpc_name}-${var.gcloud_region}-instance1"
   machine_type  = "${var.instance_type}"
-  zone          = "${var.zone}"
+  zone          = "${var.gcloud_zone}"
   tags          = ["ssh","http"]
 
   boot_disk {
@@ -16,7 +16,7 @@ resource "google_compute_instance" "default" {
   labels = {
     network = "${var.vpc_name}"
     vpc     = "${var.vpc_name}"
-    zone    = "${var.zone}"
+    zone    = "${var.gcloud_zone}"
   }
 
   //metadata = {
@@ -32,7 +32,7 @@ resource "google_compute_instance" "default" {
 
   network_interface {
       network = "${var.vpc_name}"
-      subnetwork = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/regions/${var.default_region}/subnetworks/${var.vpc_name}-${var.default_region}-pub-net"
+      subnetwork = "https://www.googleapis.com/compute/v1/projects/${var.gcloud_project}/regions/${var.gcloud_region}/subnetworks/${var.vpc_name}-${var.gcloud_region}-pub-net"
       access_config {
         // Ephemeral IP
       }
@@ -41,7 +41,7 @@ resource "google_compute_instance" "default" {
 }
 
 // resource "google_compute_instance_template" "tpl" {
-//   project         = "${var.project_id}"
+//   project         = "${var.gcloud_project}"
 //   name            = "${var.vpc_name}-template"
 //   machine_type    = "${var.instance_type}"
 //   tags          = ["ssh","http"]
@@ -55,7 +55,7 @@ resource "google_compute_instance" "default" {
 // 
 //   network_interface {
 //       network = "${var.vpc_name}"
-//       subnetwork = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/regions/${var.default_region}/subnetworks/${var.vpc_name}-${var.default_region}-pub-net"
+//       subnetwork = "https://www.googleapis.com/compute/v1/projects/${var.gcloud_project}/regions/${var.gcloud_region}/subnetworks/${var.vpc_name}-${var.gcloud_region}-pub-net"
 //       access_config {
 //         // Ephemeral IP
 //       }
@@ -67,18 +67,18 @@ resource "google_compute_instance" "default" {
 // }
 // 
 // resource "google_compute_instance_from_template" "tpl" {
-//   project    = "${var.project_id}"
-//   name       = "${var.vpc_name}-${var.zone}-${var.hostname_suffix}"
-//   zone       = "${var.zone}"
+//   project    = "${var.gcloud_project}"
+//   name       = "${var.vpc_name}-${var.gcloud_zone}-${var.hostname_suffix}"
+//   zone       = "${var.gcloud_zone}"
 // 
 //   source_instance_template = google_compute_instance_template.tpl.id
 // 
 //   can_ip_forward = false
 // 
 //   labels = {
-//     hostname = "${var.vpc_name}-${var.zone}-${var.hostname_suffix}"
-//     name     = "${var.vpc_name}-${var.zone}-${var.hostname_suffix}"
-//     zone     = "${var.zone}"
+//     hostname = "${var.vpc_name}-${var.gcloud_zone}-${var.hostname_suffix}"
+//     name     = "${var.vpc_name}-${var.gcloud_zone}-${var.hostname_suffix}"
+//     zone     = "${var.gcloud_zone}"
 //   }
 // 
 // }

@@ -1,5 +1,5 @@
-variable "project_id" {
-    description = "project_id"
+variable "gcloud_project" {
+    description = "gcloud_project"
     default = "testproject-11111"
 }
 
@@ -8,12 +8,12 @@ variable "vpc_name" {
     default = "test"
 }
 
-variable "zone" {
-    description = "zone"
+variable "gcloud_zone" {
+    description = "gcloud_zone"
     default = "us-west1-b"
 }
 
-variable "default_region" {
+variable "gcloud_region" {
     description = "google default region"
     default = "us-west1"
 }

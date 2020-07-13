@@ -1,0 +1,172 @@
+#!/usr/bin/env python
+#
+#This file is part of "jiffy".
+#
+#Project: jiffy: A product for building and managing infrastructure: 
+#cloud provider services, and servers and their configurations.
+#
+#Description: A product for building and managing infrastructure. 
+#This includes third party API calls for services such as virtual
+#cloud servers, load balancers, databases, and other. The product 
+#manages connectivity and appropriate communication among these 
+#aws.
+#
+#Copyright (C) Gary Leong - All Rights Reserved
+#Unauthorized copying of this file, via any medium is strictly prohibited
+#Proprietary and confidential
+#Written by Gary Leong  <gwleong@gmail.com, September 17,2015
+
+import os
+import json
+import jinja2
+import sys
+from time import sleep
+
+from ed_helper_publisher.loggerly import ElasticDevLogger
+from ed_helper_publisher.cloud.gcloud import GcloudCli
+from ed_helper_publisher.utilities import convert_str2json
+
+class Main(GcloudCli):
+
+    def __init__(self,**kwargs):
+
+        GcloudCli.__init__(self)
+        self.classname = 'GcloudBuilder'
+        self.logger = ElasticDevLogger(self.classname,logcategory="cloudprovider")
+        self.logger.debug("Instantiating %s" % self.classname)
+        self.product = "container_builder"
+        self.provider = "gcloud"
+        self.shelloutconfig = "elasticdev:::gcloud::container_builder"
+
+        self.gcloud_template_file_path = os.environ["GCLOUD_TEMPLATE_FILE_PATH"]
+        self.gcloud_config_file_path = os.environ["GCLOUD_CONFIG_FILE_PATH"]
+        self.image_name = os.environ.get("IMAGE_NAME")
+        if not self.image_name: self.image_name = os.environ["DOCKER_IMAGE"]
+
+    def _set_credentials(self,**kwargs):
+
+        cmds = self.get_init_credentials_cmds()
+
+        for cmd in cmds:
+            self.execute(cmd,convert_to_json=None,exit_error=True)
+
+    def _template_to_config(self,**kwargs):
+
+        templateVars = {"GCLOUD_PROJECT":self.gcloud_project}
+        templateVars["IMAGE_NAME"] = self.image_name
+
+        src_filepath = self.gcloud_template_file_path
+        dst_filepath = self.gcloud_config_file_path
+        templateLoader = jinja2.FileSystemLoader(searchpath="/")
+        templateEnv = jinja2.Environment(loader=templateLoader)
+        template = templateEnv.get_template(src_filepath)
+        outputText = template.render( templateVars )
+        writefile = open(dst_filepath,"wb")
+        writefile.write(outputText)
+        writefile.close()
+
+
+
+    def run(self):
+
+        self._set_credentials(self,**self.inputargs)
+
+        cmd = "gcloud builds submit --config {} {}".format(gcloud_config_file_path,gcloud_src_dir)
+        #gcloud builds submit --config [CONFIG_FILE_PATH] [SOURCE_DIRECTORY]
+
+        #failed_message = "could not destroyed {} instance_id {} in {}".format(self.product,instance_id,self.aws_default_region)
+        #self.cmd_failed(failed_message=failed_message)
+
+def usage():
+
+    print """
+script + environmental variables
+
+or
+
+script + json_input (as argument)
+
+environmental variables:
+    basic:
+        GCLOUD_PROJECT  
+        GOOGLE_APPLICATION_CREDENTIALS
+        METHOD
+        GCLOUD_REGION (optional)
+
+    run:
+        GCLOUD_TEMPLATE_FILE_PATH
+        GCLOUD_CONFIG_FILE_PATH
+        IMAGE_NAME
+
+       """
+    exit(4)
+
+if __name__ == '__main__':
+
+    try:
+        json_input = sys.argv[1]
+    except:
+        json_input = None
+
+    main = Main()
+
+    if json_input:
+        main.set_inputargs(json_input=json_input)
+    else:
+        set_env_vars = [ "method",
+                         "gcloud_project",
+                         "google_application_credentials",
+                         "gcloud_region",
+                         "gcloud_template_file_path",
+                         "gcloud_config_file_path",
+                         "image_name" ]
+
+        main.set_inputargs(set_env_vars=set_env_vars)
+   
+    method = main.inputargs.get("method")
+
+    if not method:
+        print "method/ENV VARIABLE METHOD is needed"
+        exit(4)
+
+    # Set class and region
+    main.get_region()
+
+    if method == "run":
+
+        req_keys = [ "image_name",
+                     "gcloud_project" ]
+
+        main.check_required_inputargs(keys=req_keys)
+        main.run()
+
+    elif method == "start":
+
+        req_keys = [ "instance_id" ]
+        main.check_required_inputargs(keys=req_keys)
+        main.start()
+
+    elif method == "stop":
+
+        req_keys = [ "instance_id" ]
+        main.check_required_inputargs(keys=req_keys)
+        main.stop()
+
+    elif method == "destroy":
+    
+        main.check_required_inputargs(keys=["instance_id"])
+        main.destroy()
+
+    elif method == "get":
+
+        main.check_required_inputargs(keys=["name"])
+        main.get()
+
+    else:
+        usage()
+        print 'method "{}" not supported!'.format(method)
+        exit(4)
+
+
+
+

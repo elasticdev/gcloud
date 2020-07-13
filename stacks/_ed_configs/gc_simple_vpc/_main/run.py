@@ -11,7 +11,8 @@ def run(stackargs):
 
     # credentials is more permanent, and will be used in other stacks - GOOGLE_APPLICATION_CREDENTIALS
     # this will use the google oauth access token that can be renewed in the UI after it expires
-    stack.parse.add_required(key="google_oauth_access_token")
+    stack.parse.add_required(key="google_application_credentials",default="/var/tmp/terraform/.credentials.json")
+    stack.parse.add_required(key="credential_group",default="{}:::gcloud_creds::project1".format(stack.nickname))
 
     stack.parse.add_optional(key="gcloud_region",default="us-west1")
     stack.parse.add_optional(key="gcloud_zone",default="us-west1-b")
@@ -22,13 +23,14 @@ def run(stackargs):
     stack.parse.add_optional(key="public_cidr",default="10.10.10.0/24")
     stack.parse.add_optional(key="private_cidr",default="10.10.20.0/24")
 
-    # declare execution groups
-    stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::firewall","firewall")
-    stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::subnets","subnets")
-    stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::vpc","vpc")
-
-    # Initialize 
+    # initialize variables
     stack.init_variables()
+
+    # declare execution groups
+    stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::firewall".format(stack.credential_group),"firewall")
+    stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::subnets".format(stack.credential_group),"subnets")
+    stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::vpc".format(stack.credential_group),"vpc")
+
     stack.init_execgroups()
 
     # CREATE EMPTY VPC
@@ -40,7 +42,7 @@ def run(stackargs):
     env_vars["ROUTING_MODE"] = stack.routing_mode
     env_vars["STATEFUL_ID"] = vpc_state_id
 
-    env_vars["GOOGLE_OAUTH_ACCESS_TOKEN"] = stack.google_oauth_access_token
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
@@ -71,7 +73,7 @@ def run(stackargs):
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
     env_vars["STATEFUL_ID"] = subnet_state_id
 
-    env_vars["GOOGLE_OAUTH_ACCESS_TOKEN"] = stack.google_oauth_access_token
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
@@ -99,7 +101,7 @@ def run(stackargs):
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
     env_vars["STATEFUL_ID"] = firewall_state_id
 
-    env_vars["GOOGLE_OAUTH_ACCESS_TOKEN"] = stack.google_oauth_access_token
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"

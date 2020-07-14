@@ -1,0 +1,16 @@
+desc: The stack builds a docker container using gcloud container builder
+release: 0.0.1
+categories: 
+   - gcloud
+   - container_builder
+   - cloud
+   - public_cloud
+tags:
+   - container_builder
+   - container 
+   - builder 
+   - server
+   - host
+   - gcloud
+   - infrastructure
+   - featured_infrastructure

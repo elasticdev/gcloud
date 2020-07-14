@@ -17,14 +17,14 @@
 #Written by Gary Leong  <gwleong@gmail.com, September 17,2015
 
 import os
-import json
+#import json
 import jinja2
 import sys
 from time import sleep
 
 from ed_helper_publisher.loggerly import ElasticDevLogger
-from ed_helper_publisher.cloud.gcloud import GcloudCli
-from ed_helper_publisher.utilities import convert_str2json
+from ed_helper_publisher.cloud.gcloudcli import GcloudCli
+#from ed_helper_publisher.utilities import convert_str2json
 
 class Main(GcloudCli):
 
@@ -38,25 +38,42 @@ class Main(GcloudCli):
         self.provider = "gcloud"
         self.shelloutconfig = "elasticdev:::gcloud::container_builder"
 
-        self.gcloud_template_file_path = os.environ["GCLOUD_TEMPLATE_FILE_PATH"]
-        self.gcloud_config_file_path = os.environ["GCLOUD_CONFIG_FILE_PATH"]
-        self.image_name = os.environ.get("IMAGE_NAME")
-        if not self.image_name: self.image_name = os.environ["DOCKER_IMAGE"]
+        # Image name in the gcloud registry is not the fq path 
+        # of the image.  
+        #
+        # e.g. gcr.io/project1-282607/hellospring, the image name is
+        # only "hellospring".  the DOCKER_IMAGE environment variable
+        # would differ and be fq and equate to "gcr.io/project1-282607/hellospring"
+        # this is the nomenclature
 
-    def _set_credentials(self,**kwargs):
+    def _set_uninputted_variables(self):
+
+        if not self.inputargs.get("gcloud_src_dir"):
+            if self.inputargs.get("docker_build_dir"):
+                self.inputargs["gcloud_src_dir"] = self.inputargs["docker_build_dir"]
+            else:
+                self.inputargs["gcloud_src_dir"] = "/var/tmp/docker/build"
+
+        if not self.inputargs.get("gcloud_template_file_path"):
+            self.inputargs["gcloud_template_file_path"] = os.path.join(self.inputargs["gcloud_src_dir"],"cloudbuild.yaml.ja2")
+
+        if not self.inputargs.get("gcloud_config_file_path"):
+            self.inputargs["gcloud_config_file_path"] = os.path.join(self.inputargs["gcloud_src_dir"],"cloudbuild.yaml")
+
+    def _set_credentials(self):
 
         cmds = self.get_init_credentials_cmds()
 
         for cmd in cmds:
-            self.execute(cmd,convert_to_json=None,exit_error=True)
+            self.execute(cmd,output_to_json=None,exit_error=True)
 
     def _template_to_config(self,**kwargs):
 
         templateVars = {"GCLOUD_PROJECT":self.gcloud_project}
-        templateVars["IMAGE_NAME"] = self.image_name
+        templateVars["IMAGE_NAME"] = self.inputargs["image_name"]
 
-        src_filepath = self.gcloud_template_file_path
-        dst_filepath = self.gcloud_config_file_path
+        src_filepath = self.inputargs["gcloud_template_file_path"]
+        dst_filepath = self.inputargs["gcloud_config_file_path"]
         templateLoader = jinja2.FileSystemLoader(searchpath="/")
         templateEnv = jinja2.Environment(loader=templateLoader)
         template = templateEnv.get_template(src_filepath)
@@ -65,17 +82,19 @@ class Main(GcloudCli):
         writefile.write(outputText)
         writefile.close()
 
-
-
     def run(self):
 
-        self._set_credentials(self,**self.inputargs)
+        self._set_credentials()
+        self._set_uninputted_variables()
 
-        cmd = "gcloud builds submit --config {} {}".format(gcloud_config_file_path,gcloud_src_dir)
         #gcloud builds submit --config [CONFIG_FILE_PATH] [SOURCE_DIRECTORY]
+        cmd = "gcloud builds submit --config {} {}".format(self.inputargs["gcloud_config_file_path"],self.inputargs["gcloud_src_dir"])
 
-        #failed_message = "could not destroyed {} instance_id {} in {}".format(self.product,instance_id,self.aws_default_region)
-        #self.cmd_failed(failed_message=failed_message)
+        results = self.execute(cmd,output_to_json=False,exit_error=True)
+
+        #self.print_output(**results)
+
+        print results.get("output")
 
 def usage():
 
@@ -91,7 +110,8 @@ environmental variables:
         GCLOUD_PROJECT  
         GOOGLE_APPLICATION_CREDENTIALS
         METHOD
-        GCLOUD_REGION (optional)
+        DOCKER_BUILD_DIR
+        GCLOUD_SRC_DIR
 
     run:
         GCLOUD_TEMPLATE_FILE_PATH
@@ -116,7 +136,8 @@ if __name__ == '__main__':
         set_env_vars = [ "method",
                          "gcloud_project",
                          "google_application_credentials",
-                         "gcloud_region",
+                         "docker_build_dir",
+                         "gcloud_src_dir",
                          "gcloud_template_file_path",
                          "gcloud_config_file_path",
                          "image_name" ]
@@ -140,33 +161,7 @@ if __name__ == '__main__':
         main.check_required_inputargs(keys=req_keys)
         main.run()
 
-    elif method == "start":
-
-        req_keys = [ "instance_id" ]
-        main.check_required_inputargs(keys=req_keys)
-        main.start()
-
-    elif method == "stop":
-
-        req_keys = [ "instance_id" ]
-        main.check_required_inputargs(keys=req_keys)
-        main.stop()
-
-    elif method == "destroy":
-    
-        main.check_required_inputargs(keys=["instance_id"])
-        main.destroy()
-
-    elif method == "get":
-
-        main.check_required_inputargs(keys=["name"])
-        main.get()
-
     else:
         usage()
         print 'method "{}" not supported!'.format(method)
         exit(4)
-
-
-
-

@@ -15,7 +15,7 @@ def run(stackargs):
 
     # we set this to null to pass the introspection
     # ref 5490734650346
-    stack.parse.add_required(key="credential_group",default="null")
+    stack.parse.add_required(key="credential_group",default="null",null_allowed=True)
 
     stack.parse.add_optional(key="gcloud_region",default="us-west1")
     stack.parse.add_optional(key="routing_mode",default="global")
@@ -29,17 +29,21 @@ def run(stackargs):
     stack.init_variables()
 
     # declare execution groups
-    #stack.add_execgroup("elasticdev:::gcloud::base","gcloud_base")
-    #stack.add_execgroup("elasticdev:::gcloud::firewall","gcloud_firewall")
-    #stack.add_execgroup("elasticdev:::gcloud::subnets","gcloud_subnets")
-    #stack.add_execgroup("elasticdev:::gcloud::vpc","gcloud_vpc")
+    stack.add_execgroup("elasticdev:::gcloud::base","introspection_gcloud_base")
+    stack.add_execgroup("elasticdev:::gcloud::firewall","introspection_gcloud_firewall")
+    stack.add_execgroup("elasticdev:::gcloud::subnets","introspection_gcloud_subnets")
+    stack.add_execgroup("elasticdev:::gcloud::vpc","introspection_gcloud_vpc")
+
+    # initialize exegroups for introspection and dependencies
+    stack.init_execgroups()
 
     # ref 5490734650346
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::firewall".format(stack.credential_group),"firewall")
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::subnets".format(stack.credential_group),"subnets")
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::vpc".format(stack.credential_group),"vpc")
 
-    # initialize exegroups
+    # we initialize exegroups a second time
+    # to include credential_group
     stack.init_execgroups()
 
     # CREATE EMPTY VPC

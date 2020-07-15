@@ -51,8 +51,8 @@ def run(stackargs):
     env_vars["RESOURCE_TAGS"] = [ "vpc", stack.vpc_name ]
     env_vars["RESOURCE_MAIN"] = True
 
-    # determine what env vars to pass to the docker 
-    # execution container
+    # determine what env vars to pass to 
+    # the docker execution container
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)

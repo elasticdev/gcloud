@@ -12,7 +12,10 @@ def run(stackargs):
     # credentials is more permanent, and will be used in other stacks - GOOGLE_APPLICATION_CREDENTIALS
     # this will use the google oauth access token that can be renewed in the UI after it expires
     stack.parse.add_required(key="google_application_credentials",default="/tmp/.credentials.json")
-    stack.parse.add_required(key="credential_group",default="null",null_allowed=False)
+
+    # we set this to null to pass the introspection
+    # ref 5490734650346
+    stack.parse.add_required(key="credential_group",default="null")
 
     stack.parse.add_optional(key="gcloud_region",default="us-west1")
     stack.parse.add_optional(key="routing_mode",default="global")
@@ -31,6 +34,7 @@ def run(stackargs):
     #stack.add_execgroup("elasticdev:::gcloud::subnets","gcloud_subnets")
     #stack.add_execgroup("elasticdev:::gcloud::vpc","gcloud_vpc")
 
+    # ref 5490734650346
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::firewall".format(stack.credential_group),"firewall")
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::subnets".format(stack.credential_group),"subnets")
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::vpc".format(stack.credential_group),"vpc")

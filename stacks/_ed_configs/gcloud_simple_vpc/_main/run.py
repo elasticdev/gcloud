@@ -15,7 +15,6 @@ def run(stackargs):
 
     # we set this to null to pass the introspection
     # ref 5490734650346
-    stack.set_variable("credential_group","SET_AT_RUN_TIME")
     stack.parse.add_required(key="credential_group")
 
     stack.parse.add_optional(key="gcloud_region",default="us-west1")

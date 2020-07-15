@@ -44,7 +44,7 @@ def run(stackargs):
 
     # we initialize exegroups a second time
     # to include credential_group
-    stack.init_execgroups()
+    stack.reset_execgroups()
 
     # CREATE EMPTY VPC
     vpc_state_id = stack.random_id(size=8)

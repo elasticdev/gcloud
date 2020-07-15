@@ -12,7 +12,7 @@ def run(stackargs):
     # credentials is more permanent, and will be used in other stacks - GOOGLE_APPLICATION_CREDENTIALS
     # this will use the google oauth access token that can be renewed in the UI after it expires
     stack.parse.add_required(key="google_application_credentials",default="/tmp/.credentials.json")
-    stack.parse.add_required(key="credential_group",default="null")
+    stack.parse.add_required(key="credential_group",default="null",null_allowed=False)
 
     stack.parse.add_optional(key="gcloud_region",default="us-west1")
     stack.parse.add_optional(key="routing_mode",default="global")

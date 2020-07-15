@@ -15,7 +15,6 @@ def run(stackargs):
     stack.parse.add_required(key="credential_group",default="{}:::gcloud_creds::project1".format(stack.nickname))
 
     stack.parse.add_optional(key="gcloud_region",default="us-west1")
-    stack.parse.add_optional(key="gcloud_zone",default="us-west1-b")
     stack.parse.add_optional(key="routing_mode",default="global")
 
     # docker image to execute terraform with

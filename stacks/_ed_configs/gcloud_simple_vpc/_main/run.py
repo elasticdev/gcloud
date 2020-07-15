@@ -37,6 +37,15 @@ def run(stackargs):
     # initialize exegroups for introspection and dependencies
     stack.init_execgroups()
 
+    # Testingyoyo
+    print stack.credential_group
+    print stack.credential_group
+    print stack.credential_group
+    stack.logger.debug(stack.credential_group)
+    stack.logger.debug(stack.credential_group)
+    stack.logger.debug(stack.credential_group)
+    stack.logger.debug(stack.credential_group)
+
     # ref 5490734650346
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::firewall".format(stack.credential_group),"firewall")
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::subnets".format(stack.credential_group),"subnets")

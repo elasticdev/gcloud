@@ -30,6 +30,7 @@ def run(stackargs):
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::subnets".format(stack.credential_group),"subnets")
     stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::vpc".format(stack.credential_group),"vpc")
 
+    # initialize exegroups
     stack.init_execgroups()
 
     # CREATE EMPTY VPC

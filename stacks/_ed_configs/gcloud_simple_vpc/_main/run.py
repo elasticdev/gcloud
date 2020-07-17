@@ -18,7 +18,6 @@ def run(stackargs):
     stack.parse.add_required(key="credential_group")
 
     stack.parse.add_optional(key="gcloud_region",default="us-west1")
-    stack.parse.add_optional(key="routing_mode",default="global")
 
     # docker image to execute terraform with
     stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env")
@@ -51,7 +50,6 @@ def run(stackargs):
     env_vars = {"NAME":stack.vpc_name}
     env_vars["VPC_NAME"] = stack.vpc_name
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
-    env_vars["ROUTING_MODE"] = stack.routing_mode
     env_vars["STATEFUL_ID"] = vpc_state_id
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
@@ -68,6 +66,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
+    env_vars["OS_TEMPLATE_VARS"] = ["GCLOUD_PROJECT", "VPC_NAME" ]
 
     inputargs = {"name":stack.vpc_name}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -97,6 +96,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
+    env_vars["OS_TEMPLATE_VARS"] = ["GCLOUD_PROJECT", "VPC_NAME", "PRIVATE_CIDR", "PUBLIC_CIDR", "GCLOUD_REGION" ]
 
     inputargs = {"name":subnet_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -124,6 +124,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
+    env_vars["OS_TEMPLATE_VARS"] = ["GCLOUD_PROJECT", "VPC_NAME", "PRIVATE_CIDR", "PUBLIC_CIDR" ]
 
     inputargs = {"name":firewall_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -131,4 +132,3 @@ def run(stackargs):
     stack.firewall.insert(**inputargs)
 
     return stack.get_results()
-

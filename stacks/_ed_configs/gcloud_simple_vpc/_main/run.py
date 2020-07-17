@@ -29,10 +29,14 @@ def run(stackargs):
     stack.init_variables()
 
     # declare execution groups
-    stack.add_execgroup("elasticdev:::gcloud::base","introspection_gcloud_base")
-    stack.add_execgroup("elasticdev:::gcloud::firewall","introspection_gcloud_firewall")
-    stack.add_execgroup("elasticdev:::gcloud::subnets","introspection_gcloud_subnets")
-    stack.add_execgroup("elasticdev:::gcloud::vpc","introspection_gcloud_vpc")
+    #stack.add_execgroup("elasticdev:::gcloud::base","introspection_gcloud_base")
+    #stack.add_execgroup("elasticdev:::gcloud::firewall","introspection_gcloud_firewall")
+    #stack.add_execgroup("elasticdev:::gcloud::subnets","introspection_gcloud_subnets")
+    #stack.add_execgroup("elasticdev:::gcloud::vpc","introspection_gcloud_vpc")
+
+    stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::firewall","firewall")
+    stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::subnets","subnets")
+    stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::vpc","vpc")
 
     # initialize exegroups for introspection and dependencies
     stack.init_execgroups()

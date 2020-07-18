@@ -12,7 +12,7 @@ def run(stackargs):
 
     # this will set the GOOGLE_APPLICATION_CREDENTIALS environment variable relative to the shared docker volume
     # it should be in the directory /var/tmp/terraform
-    stack.parse.add_required(key="google_application_credentials",default="/var/tmp/terraform/.creds/gcloud.json")
+    stack.parse.add_required(key="google_application_credentials",default="/.creds/gcloud.json")
 
     # we set this to null to pass the introspection
     # ref 5490734650346

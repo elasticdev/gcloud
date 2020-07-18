@@ -45,6 +45,8 @@ def run(stackargs):
     # to include credential_group
     stack.reset_execgroups()
 
+    relative_google_application_credential_dir = "/".join(stack.google_application_credentials.split("/")[1:])
+
     # CREATE EMPTY VPC
     vpc_state_id = stack.random_id(size=8)
     exec_dir = os.path.join("/tmp",vpc_state_id)
@@ -52,7 +54,7 @@ def run(stackargs):
     env_vars = {"NAME":stack.vpc_name}
     env_vars["VPC_NAME"] = stack.vpc_name
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
-    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,stack.google_application_credentials)
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,relative_google_application_credential_dir)
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
@@ -88,7 +90,7 @@ def run(stackargs):
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
     env_vars["STATEFUL_ID"] = subnet_state_id
 
-    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,stack.google_application_credentials)
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,relative_google_application_credential_dir)
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
@@ -121,7 +123,7 @@ def run(stackargs):
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
     env_vars["STATEFUL_ID"] = firewall_state_id
 
-    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,stack.google_application_credentials)
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,relative_google_application_credential_dir)
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"

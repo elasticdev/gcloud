@@ -52,6 +52,10 @@ def run(stackargs):
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
     env_vars["STATEFUL_ID"] = vpc_state_id
 
+    env_vars["CHROOTFILES_DEST_DIR"] = "/tmp/{}".format(vpc_state_id)
+    env_vars["STATEFUL_DIR"] = "/tmp/{}".format(vpc_state_id)
+    env_vars["EXEC_DIR"] = "/tmp/{}".format(vpc_state_id)
+
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True

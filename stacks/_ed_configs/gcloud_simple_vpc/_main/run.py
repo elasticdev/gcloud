@@ -10,9 +10,9 @@ def run(stackargs):
     stack.parse.add_required(key="vpc_name")
     stack.parse.add_required(key="gcloud_project")
 
-    # credentials is more permanent, and will be used in other stacks - GOOGLE_APPLICATION_CREDENTIALS
-    # this will use the google oauth access token that can be renewed in the UI after it expires
-    stack.parse.add_required(key="google_application_credentials",default="/tmp/.credentials.json")
+    # this will set the GOOGLE_APPLICATION_CREDENTIALS environment variable relative to the shared docker volume
+    # it should be in the directory /var/tmp/terraform
+    stack.parse.add_required(key="google_application_credentials",default="/var/tmp/terraform/.creds/gcloud.json")
 
     # we set this to null to pass the introspection
     # ref 5490734650346
@@ -45,7 +45,8 @@ def run(stackargs):
     # to include credential_group
     stack.reset_execgroups()
 
-    relative_google_application_credential_dir = "/".join(stack.google_application_credentials.split("/")[1:])
+    #relative_google_application_credential_dir = "/".join(stack.google_application_credentials.split("/")[1:])
+    #env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,relative_google_application_credential_dir)
 
     # CREATE EMPTY VPC
     vpc_state_id = stack.random_id(size=8)
@@ -54,7 +55,7 @@ def run(stackargs):
     env_vars = {"NAME":stack.vpc_name}
     env_vars["VPC_NAME"] = stack.vpc_name
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
-    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,relative_google_application_credential_dir)
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
@@ -90,7 +91,7 @@ def run(stackargs):
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
     env_vars["STATEFUL_ID"] = subnet_state_id
 
-    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,relative_google_application_credential_dir)
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
@@ -123,7 +124,7 @@ def run(stackargs):
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
     env_vars["STATEFUL_ID"] = firewall_state_id
 
-    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,relative_google_application_credential_dir)
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"

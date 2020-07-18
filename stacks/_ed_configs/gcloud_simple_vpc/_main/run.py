@@ -78,6 +78,7 @@ def run(stackargs):
 
     # CREATE SUBNETS
     subnet_state_id = stack.random_id(size=8)
+    exec_dir = os.path.join("/tmp",subnet_state_id)
 
     env_vars = {"NAME":subnet_state_id}
     env_vars["VPC_NAME"] = stack.vpc_name
@@ -87,7 +88,7 @@ def run(stackargs):
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
     env_vars["STATEFUL_ID"] = subnet_state_id
 
-    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,stack.google_application_credentials)
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
@@ -104,10 +105,14 @@ def run(stackargs):
     inputargs = {"name":subnet_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = subnet_state_id
+    inputargs["chrootfiles_dest_dir"] = exec_dir
+    inputargs["stateful_dir"] = exec_dir
+    inputargs["exec_dir"] = exec_dir
     stack.subnets.insert(**inputargs)
 
     # CREATE FIREWALL
     firewall_state_id = stack.random_id(size=8)
+    exec_dir = os.path.join("/tmp",firewall_state_id)
 
     env_vars = {"NAME":firewall_state_id}
     env_vars["VPC_NAME"] = stack.vpc_name
@@ -116,7 +121,7 @@ def run(stackargs):
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
     env_vars["STATEFUL_ID"] = firewall_state_id
 
-    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
+    env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(exec_dir,stack.google_application_credentials)
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
@@ -132,6 +137,9 @@ def run(stackargs):
     inputargs = {"name":firewall_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = firewall_state_id
+    inputargs["chrootfiles_dest_dir"] = exec_dir
+    inputargs["stateful_dir"] = exec_dir
+    inputargs["exec_dir"] = exec_dir
     stack.firewall.insert(**inputargs)
 
     return stack.get_results()

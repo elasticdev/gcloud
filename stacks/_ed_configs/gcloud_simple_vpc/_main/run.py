@@ -60,6 +60,7 @@ def run(stackargs):
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
 
+    env_vars["TERRAFORM_RESOURCE_TYPE"] = "vpc"
     env_vars["RESOURCE_TYPE"] = "vpc"
     env_vars["RESOURCE_TAGS"] = [ "vpc", stack.vpc_name ]
     env_vars["RESOURCE_MAIN"] = True
@@ -97,6 +98,7 @@ def run(stackargs):
     env_vars["METHOD"] = "create"
 
     env_vars["RESOURCE_MAP_KEYS"] = "ip_cidr_range:cidr,provider:cloud_provider"
+    env_vars["TERRAFORM_RESOURCE_TYPE"] = "subnet"
     env_vars["RESOURCE_TYPE"] = "subnet"
     env_vars["RESOURCE_TAGS"] = [ "subnet", stack.vpc_name ]
 
@@ -129,6 +131,7 @@ def run(stackargs):
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
 
+    env_vars["TERRAFORM_RESOURCE_TYPE"] = "firewall"
     env_vars["RESOURCE_TYPE"] = "firewall"
     env_vars["RESOURCE_TAGS"] = [ "firewall", stack.vpc_name ]
 

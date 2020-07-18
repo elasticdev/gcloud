@@ -50,11 +50,11 @@ def run(stackargs):
     env_vars = {"NAME":stack.vpc_name}
     env_vars["VPC_NAME"] = stack.vpc_name
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
-    env_vars["STATEFUL_ID"] = vpc_state_id
 
-    env_vars["CHROOTFILES_DEST_DIR"] = "/tmp/{}".format(vpc_state_id)
-    env_vars["STATEFUL_DIR"] = "/tmp/{}".format(vpc_state_id)
-    env_vars["EXEC_DIR"] = "/tmp/{}".format(vpc_state_id)
+    #env_vars["STATEFUL_ID"] = vpc_state_id
+    #env_vars["CHROOTFILES_DEST_DIR"] = "/tmp/{}".format(vpc_state_id)
+    #env_vars["STATEFUL_DIR"] = "/tmp/{}".format(vpc_state_id)
+    #env_vars["EXEC_DIR"] = "/tmp/{}".format(vpc_state_id)
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
@@ -75,6 +75,9 @@ def run(stackargs):
     inputargs = {"name":stack.vpc_name}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = vpc_state_id
+    inputargs["chrootfiles_dest_dir"] = "/tmp/{}".format(vpc_state_id)
+    inputargs["stateful_dir"] = "/tmp/{}".format(vpc_state_id)
+    inputargs["exec_dir"] = "/tmp/{}".format(vpc_state_id)
     stack.vpc.insert(**inputargs)
 
     # CREATE SUBNETS

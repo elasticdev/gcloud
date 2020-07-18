@@ -60,7 +60,7 @@ def run(stackargs):
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
 
-    env_vars["TERRAFORM_RESOURCE_TYPE"] = "vpc"
+    env_vars["TERRAFORM_RESOURCE_TYPE"] = "network"
     env_vars["RESOURCE_TYPE"] = "vpc"
     env_vars["RESOURCE_TAGS"] = [ "vpc", stack.vpc_name ]
     env_vars["RESOURCE_MAIN"] = True

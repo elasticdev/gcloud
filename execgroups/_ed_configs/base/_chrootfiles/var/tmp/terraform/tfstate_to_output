@@ -38,7 +38,7 @@ vpc_id = os.environ.get("VPC_ID")
 # special treatment for a main resource like vpc.  vpc 
 # resource main is loosely liken to a parent in that
 # many resources dependent on it
-main = os.environ.get("RESOURCE_MAIN",True)
+main = os.environ.get("RESOURCE_PARENT",True)
 
 _map_keys = os.environ.get("RESOURCE_MAP_KEYS")
 

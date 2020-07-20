@@ -63,7 +63,7 @@ def run(stackargs):
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_network"
     env_vars["RESOURCE_TYPE"] = "vpc"
     env_vars["RESOURCE_TAGS"] = [ "vpc", stack.vpc_name ]
-    #env_vars["RESOURCE_MAIN"] = True
+    #env_vars["RESOURCE_PARENT"] = True
 
     # determine what env vars to pass to 
     # the docker execution container
@@ -78,6 +78,8 @@ def run(stackargs):
     inputargs["chrootfiles_dest_dir"] = exec_dir
     inputargs["stateful_dir"] = exec_dir
     inputargs["exec_dir"] = exec_dir
+    inputargs["destroy_execgroup"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    inputargs["destroy_env_vars"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
     stack.vpc.insert(**inputargs)
 
     # CREATE SUBNETS
@@ -113,6 +115,8 @@ def run(stackargs):
     inputargs["chrootfiles_dest_dir"] = exec_dir
     inputargs["stateful_dir"] = exec_dir
     inputargs["exec_dir"] = exec_dir
+    inputargs["destroy_execgroup"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    inputargs["destroy_env_vars"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
     stack.subnets.insert(**inputargs)
 
     # CREATE FIREWALL
@@ -146,6 +150,8 @@ def run(stackargs):
     inputargs["chrootfiles_dest_dir"] = exec_dir
     inputargs["stateful_dir"] = exec_dir
     inputargs["exec_dir"] = exec_dir
+    inputargs["destroy_execgroup"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    inputargs["destroy_env_vars"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
     stack.firewall.insert(**inputargs)
 
     return stack.get_results()

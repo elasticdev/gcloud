@@ -2,4 +2,4 @@ export TERRAFORM_RESOURCE_TYPE=google_compute_network
 export RESOURCE_TYPE=vpc
 export CLOUD_PROVIDER=google_compute
 export VPC_NAME=test
-export RESOURCE_MAIN=True
+export RESOURCE_PARENT=True

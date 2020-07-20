@@ -63,7 +63,7 @@ def run(stackargs):
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_network"
     env_vars["RESOURCE_TYPE"] = "vpc"
     env_vars["RESOURCE_TAGS"] = [ "vpc", stack.vpc_name ]
-    env_vars["RESOURCE_MAIN"] = True
+    #env_vars["RESOURCE_MAIN"] = True
 
     # determine what env vars to pass to 
     # the docker execution container

@@ -71,6 +71,8 @@ def run(stackargs):
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
     env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME" 
+    env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 
     inputargs = {"name":stack.vpc_name}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -78,8 +80,6 @@ def run(stackargs):
     inputargs["chrootfiles_dest_dir"] = exec_dir
     inputargs["stateful_dir"] = exec_dir
     inputargs["exec_dir"] = exec_dir
-    inputargs["destroy_execgroup"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
-    inputargs["destroy_env_vars"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
     stack.vpc.insert(**inputargs)
 
     # CREATE SUBNETS
@@ -108,6 +108,8 @@ def run(stackargs):
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
     env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR,GCLOUD_REGION"
+    env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 
     inputargs = {"name":subnet_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -115,8 +117,6 @@ def run(stackargs):
     inputargs["chrootfiles_dest_dir"] = exec_dir
     inputargs["stateful_dir"] = exec_dir
     inputargs["exec_dir"] = exec_dir
-    inputargs["destroy_execgroup"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
-    inputargs["destroy_env_vars"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
     stack.subnets.insert(**inputargs)
 
     # CREATE FIREWALL
@@ -143,6 +143,8 @@ def run(stackargs):
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
     env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR"
+    env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 
     inputargs = {"name":firewall_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -150,8 +152,6 @@ def run(stackargs):
     inputargs["chrootfiles_dest_dir"] = exec_dir
     inputargs["stateful_dir"] = exec_dir
     inputargs["exec_dir"] = exec_dir
-    inputargs["destroy_execgroup"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
-    inputargs["destroy_env_vars"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
     stack.firewall.insert(**inputargs)
 
     return stack.get_results()

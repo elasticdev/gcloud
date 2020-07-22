@@ -50,7 +50,7 @@ def run(stackargs):
 
     # CREATE EMPTY VPC
     vpc_state_id = stack.random_id(size=8)
-    exec_dir = os.path.join("/tmp",vpc_state_id)
+    #exec_dir = os.path.join("/tmp",vpc_state_id)
 
     env_vars = {"NAME":stack.vpc_name}
     env_vars["VPC_NAME"] = stack.vpc_name
@@ -77,14 +77,14 @@ def run(stackargs):
     inputargs = {"name":stack.vpc_name}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = vpc_state_id
-    inputargs["chrootfiles_dest_dir"] = exec_dir
-    inputargs["stateful_dir"] = exec_dir
-    inputargs["exec_dir"] = exec_dir
+    #inputargs["chrootfiles_dest_dir"] = exec_dir
+    #inputargs["stateful_dir"] = exec_dir
+    #inputargs["exec_dir"] = exec_dir
     stack.vpc.insert(**inputargs)
 
     # CREATE SUBNETS
     subnet_state_id = stack.random_id(size=8)
-    exec_dir = os.path.join("/tmp",subnet_state_id)
+    #exec_dir = os.path.join("/tmp",subnet_state_id)
 
     env_vars = {"NAME":subnet_state_id}
     env_vars["VPC_NAME"] = stack.vpc_name
@@ -114,14 +114,14 @@ def run(stackargs):
     inputargs = {"name":subnet_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = subnet_state_id
-    inputargs["chrootfiles_dest_dir"] = exec_dir
-    inputargs["stateful_dir"] = exec_dir
-    inputargs["exec_dir"] = exec_dir
+    #inputargs["chrootfiles_dest_dir"] = exec_dir
+    #inputargs["stateful_dir"] = exec_dir
+    #inputargs["exec_dir"] = exec_dir
     stack.subnets.insert(**inputargs)
 
     # CREATE FIREWALL
     firewall_state_id = stack.random_id(size=8)
-    exec_dir = os.path.join("/tmp",firewall_state_id)
+    #exec_dir = os.path.join("/tmp",firewall_state_id)
 
     env_vars = {"NAME":firewall_state_id}
     env_vars["VPC_NAME"] = stack.vpc_name
@@ -149,9 +149,9 @@ def run(stackargs):
     inputargs = {"name":firewall_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = firewall_state_id
-    inputargs["chrootfiles_dest_dir"] = exec_dir
-    inputargs["stateful_dir"] = exec_dir
-    inputargs["exec_dir"] = exec_dir
+    #inputargs["chrootfiles_dest_dir"] = exec_dir
+    #inputargs["stateful_dir"] = exec_dir
+    #inputargs["exec_dir"] = exec_dir
     stack.firewall.insert(**inputargs)
 
     return stack.get_results()

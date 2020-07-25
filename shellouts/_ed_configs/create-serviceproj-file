@@ -5,13 +5,17 @@ import json
 
 def write_cloud_creds():
 
+    stateful_dir = os.environ.get("STATEFUL_DIR")
     stateful_id = os.environ.get("STATEFUL_ID")
     share_dir = os.environ.get("SHARE_DIR","/var/tmp/share")
 
-    if stateful_id:
-        stateful_path = share_dir
-    else:
+    if stateful_dir:
+        stateful_path = stateful_dir
+    elif stateful_id:
         stateful_path = os.path.join(share_dir,stateful_id)
+    else:
+        print "ERROR: STATEFUL_ID or STATEFUL_DIR needs to be specified"
+        exit(9)
 
     abs_google_application_credentials = os.path.join(stateful_path,".creds","gcloud.json")
     creds_dir = os.path.dirname(abs_google_application_credentials)

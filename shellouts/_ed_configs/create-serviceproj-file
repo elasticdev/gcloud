@@ -43,7 +43,7 @@ def write_cloud_creds():
                }
 
     #json_object = json.dumps(values,indent=2,separators=(',', ': ')) 
-    json_object = json.dumps(values).replace('\\n','\n')
+    json_object = json.dumps(values,indent=2).replace('\\\\','\\')
 
     if not os.path.exists(creds_dir): os.system("mkdir -p {}".format(creds_dir))
       

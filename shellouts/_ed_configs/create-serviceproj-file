@@ -42,15 +42,14 @@ def write_cloud_creds():
                "client_x509_cert_url": client_x509_cert_url,
                }
 
-    # Serializing json  
-    json_object = json.dumps(values,indent=4) 
+    json_object = json.dumps(values,indent=2,separators=(',', ': ')) 
 
     if not os.path.exists(creds_dir): os.system("mkdir -p {}".format(creds_dir))
       
     print "gcloud directory {} ...".format(abs_google_application_credentials)
 
     # Writing to sample.json 
-    with open(abs_google_application_credentials, "w", newline='\n') as outfile: 
+    with open(abs_google_application_credentials, "w") as outfile: 
         outfile.write(json_object) 
 
 if __name__ == '__main__':

@@ -8,6 +8,8 @@ def write_cloud_creds():
     stateful_dir = os.environ.get("STATEFUL_DIR")
     stateful_id = os.environ.get("STATEFUL_ID")
     share_dir = os.environ.get("SHARE_DIR","/var/tmp/share")
+    terraform_dir = os.environ.get("TERRAFORM_DIR")
+    working_dir = os.environ.get("WORKING_DIR")
 
     if stateful_dir:
         stateful_path = stateful_dir
@@ -17,7 +19,13 @@ def write_cloud_creds():
         print "ERROR: STATEFUL_ID or STATEFUL_DIR needs to be specified"
         exit(9)
 
-    abs_google_application_credentials = os.path.join(stateful_path,".creds","gcloud.json")
+    if terraform_dir:
+        abs_google_application_credentials = os.path.join(stateful_path,terraform_dir,".creds","gcloud.json")
+    elif working_dir:
+        abs_google_application_credentials = os.path.join(stateful_path,working_dir,".creds","gcloud.json")
+    else:
+        abs_google_application_credentials = os.path.join(stateful_path,".creds","gcloud.json")
+
     creds_dir = os.path.dirname(abs_google_application_credentials)
 
     project_id = os.environ["GCLOUD_PROJECT"]

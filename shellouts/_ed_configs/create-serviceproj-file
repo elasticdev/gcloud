@@ -47,6 +47,10 @@ def write_cloud_creds():
 
     if not os.path.exists(creds_dir): os.system("mkdir -p {}".format(creds_dir))
       
+    print ''
+    print "gcloud directory {} ...".format(abs_google_application_credentials)
+    print ''
+
     # Writing to sample.json 
     with open(abs_google_application_credentials, "w") as outfile: 
         outfile.write(json_object) 

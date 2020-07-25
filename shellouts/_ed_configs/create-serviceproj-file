@@ -42,19 +42,20 @@ def write_cloud_creds():
                "client_x509_cert_url": client_x509_cert_url,
                }
 
-    json_object = json.dumps(values,indent=2,separators=(',', ': ')) 
+    #json_object = json.dumps(values,indent=2,separators=(',', ': ')) 
+    json_object = json.dumps(values).replace('\\n','\n')
 
     if not os.path.exists(creds_dir): os.system("mkdir -p {}".format(creds_dir))
       
     print "gcloud directory {} ...".format(abs_google_application_credentials)
 
-    print ''
+    print 'a'*32
     print ''
     print ''
     print json_object
     print ''
     print ''
-    print ''
+    print 'a'*32
 
     # Writing to sample.json 
 

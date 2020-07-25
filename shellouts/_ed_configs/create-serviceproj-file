@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+
+import os
+import json
+
+def write_cloud_creds():
+
+    stateful_id = os.environ.get("STATEFUL_ID")
+    share_dir = os.environ.get("SHARE_DIR","/var/tmp/share")
+
+    if stateful_id:
+        stateful_path = share_dir
+    else:
+        stateful_path = os.path.join(share_dir,stateful_id)
+
+    abs_google_application_credentials = os.path.join(stateful_path,".creds","gcloud.json")
+    creds_dir = os.path.dirname(abs_google_application_credentials)
+
+    project_id = os.environ["GCLOUD_PROJECT"]
+    private_key_id = os.environ["GCLOUD_PRIVATE_KEY_ID"]
+    private_key = os.environ["GCLOUD_PRIVATE_KEY"]
+    client_id = os.environ["GCLOUD_CLIENT_ID"]
+    client_email = os.environ["GCLOUD_CLIENT_EMAIL"]
+    client_x509_cert_url = os.environ["GCLOUD_CLIENT_X509_CERT_URL"] 
+    auth_uri = os.environ.get("GCLOUD_AUTH_URI","https://accounts.google.com/o/oauth2/auth")
+    token_uri = os.environ.get("GCLOUD_TOKEN_URI","https://oauth2.googleapis.com/token")
+    auth_provider = os.environ.get("GCLOUD_AUTH_PROVIDER","https://www.googleapis.com/oauth2/v1/certs")
+
+    values = { "type": "service_account",
+               "auth_uri": auth_uri,
+               "token_uri": token_uri,
+               "auth_provider_x509_cert_url": auth_provider,
+               "project_id": project_id,
+               "private_key_id": private_key_id,
+               "private_key": private_key,
+               "client_email": client_email,
+               "client_id": client_id,
+               "client_x509_cert_url": client_x509_cert_url,
+               }
+
+    # Serializing json  
+    json_object = json.dumps(values,indent=4) 
+
+    if not os.path.exists(creds_dir): os.system("mkdir -p {}".format(creds_dir))
+      
+    # Writing to sample.json 
+    with open(abs_google_application_credentials, "w") as outfile: 
+        outfile.write(json_object) 
+
+if __name__ == '__main__':
+
+    write_cloud_creds()

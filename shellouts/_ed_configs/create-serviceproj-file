@@ -50,7 +50,7 @@ def write_cloud_creds():
     print "gcloud directory {} ...".format(abs_google_application_credentials)
 
     # Writing to sample.json 
-    with open(abs_google_application_credentials, "w") as outfile: 
+    with open(abs_google_application_credentials, "w", newline='\n') as outfile: 
         outfile.write(json_object) 
 
 if __name__ == '__main__':

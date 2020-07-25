@@ -8,24 +8,16 @@ def write_cloud_creds():
     stateful_dir = os.environ.get("STATEFUL_DIR")
     stateful_id = os.environ.get("STATEFUL_ID")
     share_dir = os.environ.get("SHARE_DIR","/var/tmp/share")
-    terraform_dir = os.environ.get("TERRAFORM_DIR")
-    working_dir = os.environ.get("WORKING_DIR")
 
     if stateful_dir:
-        stateful_path = stateful_dir
+        print "stateful_dir explicitly set on environmental variable"
     elif stateful_id:
-        stateful_path = os.path.join(share_dir,stateful_id)
+        stateful_dir = os.path.join(share_dir,stateful_id)
     else:
         print "ERROR: STATEFUL_ID or STATEFUL_DIR needs to be specified"
         exit(9)
 
-    if terraform_dir:
-        abs_google_application_credentials = os.path.join(stateful_path,terraform_dir,".creds","gcloud.json")
-    elif working_dir:
-        abs_google_application_credentials = os.path.join(stateful_path,working_dir,".creds","gcloud.json")
-    else:
-        abs_google_application_credentials = os.path.join(stateful_path,".creds","gcloud.json")
-
+    abs_google_application_credentials = os.path.join(stateful_dir,".creds","gcloud.json")
     creds_dir = os.path.dirname(abs_google_application_credentials)
 
     project_id = os.environ["GCLOUD_PROJECT"]
@@ -55,9 +47,7 @@ def write_cloud_creds():
 
     if not os.path.exists(creds_dir): os.system("mkdir -p {}".format(creds_dir))
       
-    print ''
     print "gcloud directory {} ...".format(abs_google_application_credentials)
-    print ''
 
     # Writing to sample.json 
     with open(abs_google_application_credentials, "w") as outfile: 

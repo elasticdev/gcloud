@@ -14,6 +14,10 @@ def run(stackargs):
     # it should be in the directory /var/tmp/terraform
     stack.parse.add_required(key="google_application_credentials",default="/var/tmp/share/.creds/gcloud.json")
 
+    # we set this to null to pass the introspection
+    # ref 5490734650346
+    stack.parse.add_required(key="credential_group")
+
     stack.parse.add_optional(key="gcloud_region",default="us-west1")
 
     # docker image to execute terraform with
@@ -31,6 +35,15 @@ def run(stackargs):
 
     # initialize exegroups for introspection and dependencies
     stack.init_execgroups()
+
+    # ref 5490734650346
+    stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::firewall".format(stack.credential_group),"firewall",overide=True)
+    stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::subnets".format(stack.credential_group),"subnets",overide=True)
+    stack.add_execgroup("elasticdev:::gcloud::base {} elasticdev:::gcloud::vpc".format(stack.credential_group),"vpc",overide=True)
+
+    # we initialize exegroups a second time
+    # to include credential_group
+    stack.reset_execgroups()
 
     # CREATE EMPTY VPC
     vpc_state_id = stack.random_id(size=8)
@@ -54,6 +67,8 @@ def run(stackargs):
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
     env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME" 
+    env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 
     inputargs = {"name":stack.vpc_name}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -85,6 +100,8 @@ def run(stackargs):
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
     env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR,GCLOUD_REGION"
+    env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 
     inputargs = {"name":subnet_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -114,6 +131,8 @@ def run(stackargs):
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
     env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR"
+    env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
+    env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 
     inputargs = {"name":firewall_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)

@@ -1,0 +1,17 @@
+desc: Creates a simple VPC on gcloud
+release: 0.0.1
+categories: 
+   - gcloud
+   - cloud
+   - public_cloud
+tags:
+   - vpc
+   - private_networking
+   - networking
+   - database
+   - ed_core
+   - ed_saas
+   - web
+   - ed
+   - gcloud
+   - infrastructure

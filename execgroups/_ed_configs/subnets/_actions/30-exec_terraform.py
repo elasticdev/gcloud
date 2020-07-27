@@ -4,6 +4,8 @@ def default():
     env_vars = []
     shelloutconfigs = []
 
+    shelloutconfigs.append('elasticdev:::gcloud::create-serviceproj-file')
+
     # This can be overided by env_vars in the resource add
     shelloutconfigs.append('elasticdev:::terraform::resource_wrapper')
 

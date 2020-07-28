@@ -1,0 +1,113 @@
+#!/usr/bin/env python
+
+import os
+
+from ed_helper_publisher.utilities import id_generator
+from ed_helper_publisher.shellouts import execute3
+
+def write_ssh_keys():
+
+    ssh_keys = os.environ.get("GCLOUD_SSH_KEYS")
+    filename = "/tmp/{}".format(id_generator(8))
+
+    if not ssh_keys: 
+        print 'ERROR: cannot find environmental variables "GCLOUD_SSH_KEYS" to find any ssh keys to create metadatafile with'
+        exit(9)
+
+    print "Creating temporary ssh key metafile {}".format(filename)
+
+    with open(filename, "w") as outfile: 
+        for _input in ssh_keys.split(","):
+            #outfile.write("{}:{}".format(_name.strip(),_key.strip())) 
+            outfile.write("{}".format(_input))
+            outfile.write("\n")
+
+    return filename
+
+def upload_ssh_keys_to_gcloud(filename):
+
+    gcloud_container_name = id_generator(8)
+    google_application_credentials = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+    gcloud_project = os.environ.get("GCLOUD_PROJECT")
+
+    if not google_application_credentials:
+        print 'ERROR: cannot find environmental variables "GOOGLE_APPLICATION_CREDENTIALS"'
+        os.system("rm -rf {}".format(filename))
+        exit(9)
+
+    if not gcloud_project:
+        print 'ERROR: cannot find environmental variables "GCLOUD_PROJECT"'
+        os.system("rm -rf {}".format(filename))
+        exit(9)
+
+    cmds = ["docker pull google/cloud-sdk:latest 2>&1 > /dev/null"]
+    cmds.append('for i in `docker ps -a|grep gcloud| cut -d " " -f 1`; do echo $i; docker rm -fv $i; done')
+
+    cmds.append("docker run -ti -v {}:{} --name {} google/cloud-sdk gcloud auth activate-service-account --key-file {} || exit 9".format(google_application_credentials,
+                                                                                                                                         google_application_credentials,
+                                                                                                                                         gcloud_container_name,
+                                                                                                                                         google_application_credentials))
+
+    cmds.append("docker run --rm -ti --volumes-from {} google/cloud-sdk gcloud config set project {}".format(gcloud_container_name,
+                                                                                                             gcloud_project))
+
+    cmds.append("docker run --rm -ti -v {}:{} --volumes-from {} google/cloud-sdk gcloud compute project-info add-metadata --metadata-from-file ssh-keys={}".format(filename,
+                                                                                                                                                                   filename,
+                                                                                                                                                                   gcloud_container_name,
+                                                                                                                                                                   filename))
+
+    #cmds.append("docker run --rm -ti --volumes-from {} google/cloud-sdk {} || exit 9".format(gcloud_container_name,)
+    #docker run --rm -ti --volumes-from $GCLOUD_CONTAINER_NAME google/cloud-sdk $GCLOUD_CONTAINER_CMD || exit 9
+    #gcloud compute project-info add-metadata --metadata-from-file ssh-keys=[LIST_PATH]
+
+    for cmd in cmds:
+        results = execute3(cmd,exit_error=False,output_to_json=None)
+        status = results.get("status")
+        output = results.get("output")
+        if not status: break
+
+        print ''
+        print output
+        print ''
+            
+    cmd = [ "docker rm -fv {} 2>&1 > /dev/null".format(gcloud_container_name) ]
+    execute3(cmd,exit_error=False,output_to_json=None)
+
+    print ''
+    print "_ed_output"
+    print output
+    print "_ed_output"
+
+    os.system("rm -rf {}".format(filename))
+
+    if status: return 
+
+    exit(9)
+
+
+if __name__ == '__main__':
+    filename = write_ssh_keys()
+    upload_ssh_keys_to_gcloud(filename)
+
+##!/bin/bash
+#
+#export GCLOUD_CONTAINER_CMD=${GCLOUD_CONTAINER_CMD:=gcloud projects list}
+#export GCLOUD_CONTAINER_NAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+#
+#docker pull google/cloud-sdk:latest 2>&1 > /dev/null
+#
+#for i in `docker ps -a|grep gcloud| cut -d " " -f 1`; do echo $i; docker rm -fv $i; done
+#
+#echo ""
+#echo "Executing CMD $GCLOUD_CONTAINER_CMD in container_name $GCLOUD_CONTAINER_NAME"
+#
+#docker run -ti -v $GOOGLE_APPLICATION_CREDENTIALS:$GOOGLE_APPLICATION_CREDENTIALS --name $GCLOUD_CONTAINER_NAME google/cloud-sdk gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS 2>&1 > /dev/null || exit 9
+#echo ""
+#
+#echo "_ed_output"
+#docker run --rm -ti --volumes-from $GCLOUD_CONTAINER_NAME google/cloud-sdk $GCLOUD_CONTAINER_CMD || exit 9
+#echo "_ed_output"
+#echo ""
+#
+#for i in `docker ps -a|grep gcloud| cut -d " " -f 1`; do docker rm -fv $i 2>1 > /dev/null; done
+##docker rm -fv $GCLOUD_CONTAINER_NAME 2>&1 > /dev/null

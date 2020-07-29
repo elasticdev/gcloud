@@ -7,7 +7,6 @@ def run(stackargs):
     stack.parse.add_required(key="name")
     stack.parse.add_required(key="ssh_user",default="root")
     stack.parse.add_required(key="gcloud_project")
-    stack.parse.add_required(key="google_application_credentials",default="/var/tmp/share/.creds/gcloud.json")
 
     # add shelloutconfigs
     stack.add_shelloutconfig('elasticdev:::gcloud::docker-exec-metadata-ssh-keys',"shellout")
@@ -20,7 +19,6 @@ def run(stackargs):
     public_key = stack.get_ssh_key(name=stack.name)["public_key"]
 
     stack.env_vars = {"GCLOUD_PROJECT":stack.gcloud_project}
-    stack.env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     stack.env_vars["GCLOUD_SSH_KEYS"] = "{}:{}".format(stack.ssh_user,public_key)
     stack.env_vars["METHOD"] = "run"
 

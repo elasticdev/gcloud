@@ -9,7 +9,7 @@ def run(stackargs):
     stack.parse.add_required(key="gcloud_project")
 
     # add substacks
-    stack.add_substack('elasticdev:::gcloud_upload_stage_2')
+    stack.add_substack('elasticdev:::gcloud_ssh_upload_stage_2')
 
     # Initialize Variables in stack
     stack.init_variables()

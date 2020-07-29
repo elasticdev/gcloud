@@ -24,6 +24,7 @@ from time import sleep
 
 from ed_helper_publisher.loggerly import ElasticDevLogger
 from ed_helper_publisher.cloud.gcloudcli import GcloudCli
+from ed_helper_publisher.shellouts import execute3
 #from ed_helper_publisher.utilities import convert_str2json
 
 class Main(GcloudCli):
@@ -60,14 +61,7 @@ class Main(GcloudCli):
         if not self.inputargs.get("gcloud_config_file_path"):
             self.inputargs["gcloud_config_file_path"] = os.path.join(self.inputargs["gcloud_src_dir"],"cloudbuild.yaml")
 
-    def _set_credentials(self):
-
-        cmds = self.get_init_credentials_cmds()
-
-        for cmd in cmds:
-            self.execute(cmd,output_to_json=None,exit_error=True)
-
-    def _template_to_config(self,**kwargs):
+    def _template_to_config(self):
 
         templateVars = {"GCLOUD_PROJECT":self.gcloud_project}
         templateVars["IMAGE_NAME"] = self.inputargs["image_name"]
@@ -82,19 +76,50 @@ class Main(GcloudCli):
         writefile.write(outputText)
         writefile.close()
 
+    def _run(self):
+    
+        status = self.init_docker_run()
+
+        if not status:
+            self.cleanup_docker_run()
+            exit(9)
+
+        cmd = "docker run --rm -ti -v {}:{} --volumes-from {} google/cloud-sdk gcloud builds submit --config {} {}".format(self.inputargs["gcloud_src_dir"],
+                                                                                                                           self.inputargs["gcloud_src_dir"],
+                                                                                                                           self.gcloud_container_name,
+                                                                                                                           self.inputargs["gcloud_config_file_path"],
+                                                                                                                           self.inputargs["gcloud_src_dir"])
+
+        results = execute3(cmd,exit_error=False,output_to_json=None)
+        
+        self.cleanup_docker_run()
+
+        return results
+
     def run(self):
 
-        self._set_credentials()
+        self.set_required()
         self._set_uninputted_variables()
+        self._template_to_config()
 
-        #gcloud builds submit --config [CONFIG_FILE_PATH] [SOURCE_DIRECTORY]
-        cmd = "gcloud builds submit --config {} {}".format(self.inputargs["gcloud_config_file_path"],self.inputargs["gcloud_src_dir"])
+        results = self._run()
 
-        results = self.execute(cmd,output_to_json=False,exit_error=True)
+        status = results.get("status")
+        output = results.get("output")
 
-        #self.print_output(**results)
+        self.logger.debug('')
+        self.logger.debug(output)
+        self.logger.debug('')
 
-        print results.get("output")
+        # failure
+        if not status: exit(9)
+
+        # success
+        print "_ed_output"
+        print output
+        print "_ed_output"
+
+        return results
 
 def usage():
 

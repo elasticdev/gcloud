@@ -30,4 +30,17 @@ def run(stackargs):
                              display=True,
                              default_values=default_values)
 
+    default_values = {"name":stack.name}
+    default_values["gcloud_project"] = stack.gcloud_project
+    default_values["ssh_user"] = stack.ssh_user
+    
+    inputargs = {"default_values":default_values}
+    inputargs["automation_phase"] = "infrastructure"
+    inputargs["human_description"] = "upload ssh key to gcloud"
+    inputargs["display"] = True
+    inputargs["display_hash"] = stack.get_hash_object(inputargs)
+
+    # add the stack with variables
+    stack.gcloud_ssh_upload_stage_2.insert(**inputargs)
+
     return stack.get_results()

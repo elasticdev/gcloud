@@ -69,12 +69,12 @@ class Main(GcloudCli):
         status = results.get("status")
         output = results.get("output")
 
-        self.logger.debug('')
-        self.logger.debug(output)
-        self.logger.debug('')
-
         # failure
-        if not status: exit(9)
+        if not status: 
+            self.logger.error(output)
+            exit(9)
+
+        self.logger.debug(output)
 
         # success
         print "_ed_output"

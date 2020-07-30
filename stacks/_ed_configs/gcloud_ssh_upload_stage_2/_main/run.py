@@ -9,7 +9,7 @@ def run(stackargs):
     stack.parse.add_required(key="gcloud_project")
 
     # add shelloutconfigs
-    stack.add_shelloutconfig('elasticdev:::gcloud::docker-exec-metadata-ssh-keys',"shellout")
+    stack.add_shelloutconfig('elasticdev:::gcloud::docker-exec-metadata-ssh-keys',"shellout_ssh_keys")
 
     # Initialize Variables in stack
     stack.init_variables()
@@ -24,7 +24,7 @@ def run(stackargs):
 
     inputargs = {"env_vars":stack.env_vars}
 
-    stack.shellout.run(**inputargs)
+    stack.shellout_ssh_keys.run(**inputargs)
 
     #jiffy resource add shelloutconfig=$SCRIPT insert_env_vars='["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"]' 
     #env_vars='{"AWS_DEFAULT_REGION":"us-east-1","METHOD":"create","NAME":"test", "PUBLIC_KEY":"ssh-rsa"}' 

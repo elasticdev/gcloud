@@ -47,10 +47,10 @@ class Main(GcloudCli):
             self.cleanup_docker_run()
             exit(9)
 
-        cmd = "docker run --rm -ti -v {}:{} --volumes-from {} google/cloud-sdk gcloud compute project-info add-metadata --metadata-from-file ssh-keys={}".format(self.filename,
-                                                                                                                                                                 self.filename,
-                                                                                                                                                                 self.gcloud_container_name,
-                                                                                                                                                                 self.filename)
+        cmd = "docker run --rm -v {}:{} --volumes-from {} google/cloud-sdk gcloud compute project-info add-metadata --metadata-from-file ssh-keys={}".format(self.filename,
+                                                                                                                                                             self.filename,
+                                                                                                                                                             self.gcloud_container_name,
+                                                                                                                                                             self.filename)
     
         results = execute3(cmd,exit_error=False,output_to_json=None)
         

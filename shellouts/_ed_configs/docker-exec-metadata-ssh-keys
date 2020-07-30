@@ -29,7 +29,7 @@ class Main(GcloudCli):
     
         if not self.inputargs["gcloud_ssh_keys"]: 
             self.logger.error('cannot find environmental variables "GCLOUD_SSH_KEYS" to find any ssh keys to create metadatafile with')
-            exit(9)
+            exit(7)
     
         self.logger.debug("Creating temporary ssh key metafile {}".format(self.filename))
     
@@ -45,7 +45,7 @@ class Main(GcloudCli):
 
         if not status:
             self.cleanup_docker_run()
-            exit(9)
+            exit(10)
 
         cmd = "docker run --rm -v {}:{} --volumes-from {} {} gcloud compute project-info add-metadata --metadata-from-file ssh-keys={}".format(self.filename,
                                                                                                                                                self.filename,
@@ -73,7 +73,7 @@ class Main(GcloudCli):
         # failure
         if not status: 
             self.logger.error(output)
-            exit(9)
+            exit(11)
 
         self.logger.debug(output)
 

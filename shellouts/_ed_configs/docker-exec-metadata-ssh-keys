@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import sys
 from ed_helper_publisher.cloud.gcloudcli import GcloudCli
 from ed_helper_publisher.loggerly import ElasticDevLogger
@@ -19,7 +20,7 @@ class Main(GcloudCli):
         self.shelloutconfig = "elasticdev:::gcloud::docker-exec-metadata-ssh-keys"
 
     def _set_filename(self):
-        self.filename = "/tmp/{}".format(id_generator(8))
+        self.filename = os.path.join(self.stateful_dir,id_generator(8))
 
     def _write_ssh_keys(self):
     

@@ -20,7 +20,10 @@ class Main(GcloudCli):
         self.shelloutconfig = "elasticdev:::gcloud::docker-exec-metadata-ssh-keys"
 
     def _set_filename(self):
+
         self.filename = os.path.join(self.stateful_dir,id_generator(8))
+
+        return self.filename
 
     def _write_ssh_keys(self):
     

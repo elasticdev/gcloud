@@ -22,7 +22,8 @@ def run(stackargs):
     stack.env_vars["GCLOUD_SSH_KEYS"] = "{}:{}".format(stack.ssh_user,public_key)
     stack.env_vars["METHOD"] = "run"
 
-    inputargs = {"env_vars":stack.env_vars}
+    inputargs = {"env_vars":stack.env_vars,
+                 "output_to_json":False}
 
     stack.shellout_ssh_keys.run(**inputargs)
 

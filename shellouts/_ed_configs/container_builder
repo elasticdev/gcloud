@@ -115,9 +115,9 @@ class Main(GcloudCli):
         if not status: exit(9)
 
         # success
-        print "_ed_output"
+        print '_ed_begin_output'
         print output
-        print "_ed_output"
+        print '_ed_end_output'
 
         return results
 

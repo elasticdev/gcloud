@@ -15,11 +15,11 @@ for i in `docker ps -a|grep gcloud| cut -d " " -f 1`; do echo $i; docker rm -fv 
 echo ""
 echo "Executing CMD $GCLOUD_CONTAINER_CMD in container_name $GCLOUD_CONTAINER_NAME"
 
-docker run -ti -v $GOOGLE_APPLICATION_CREDENTIALS:$GOOGLE_APPLICATION_CREDENTIALS --name $GCLOUD_CONTAINER_NAME google/cloud-sdk gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS 2>&1 > /dev/null || exit 9
+docker run -v $GOOGLE_APPLICATION_CREDENTIALS:$GOOGLE_APPLICATION_CREDENTIALS --name $GCLOUD_CONTAINER_NAME google/cloud-sdk gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS 2>&1 > /dev/null || exit 9
 echo ""
 
 echo "_ed_output"
-docker run --rm -ti --volumes-from $GCLOUD_CONTAINER_NAME google/cloud-sdk $GCLOUD_CONTAINER_CMD || exit 9
+docker run --rm --volumes-from $GCLOUD_CONTAINER_NAME google/cloud-sdk $GCLOUD_CONTAINER_CMD || exit 9
 echo "_ed_output"
 echo ""
 

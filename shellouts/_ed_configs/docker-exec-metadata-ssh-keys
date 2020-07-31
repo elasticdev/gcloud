@@ -79,7 +79,7 @@ class Main(GcloudCli):
             self.logger.error(output)
             exit(11)
 
-        self.logger.debug(output)
+        #self.logger.debug(output)
 
         # success
         print "_ed_output"

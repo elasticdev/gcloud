@@ -84,7 +84,8 @@ class Main(GcloudCli):
 
         # success
         print '_ed_begin_output'
-        print output
+        for output in self.outputs:
+            print output
         print '_ed_end_output'
 
 if __name__ == '__main__':

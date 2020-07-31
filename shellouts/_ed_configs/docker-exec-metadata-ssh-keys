@@ -57,6 +57,7 @@ class Main(GcloudCli):
 
         results = self.execute(cmd,exit_error=False,output_to_json=None)
 
+        self.add_output(cmd=cmd,**results)
         if results.get("output"): print results["output"]
         
         self.cleanup_docker_run()

@@ -83,8 +83,10 @@ class Main(GcloudCli):
         #self.logger.debug(output)
 
         # success
+        if not self.output: return
+
         print '_ed_begin_output'
-        for output in self.outputs:
+        for output in self.output:
             print output
         print '_ed_end_output'
 

@@ -65,11 +65,56 @@ class Main(GcloudCli):
 
     def run(self):
 
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
+        print 'a'*32
         self.set_required()
+        print 'b'*32
+        print 'b'*32
+        print 'b'*32
+        print 'b'*32
+        print 'b'*32
+        print 'b'*32
+        print 'b'*32
         self._set_filename()
+        print 'c'*32
+        print 'c'*32
+        print 'c'*32
+        print 'c'*32
+        print 'c'*32
+        print 'c'*32
+        print 'c'*32
+        print 'c'*32
         self._write_ssh_keys()
+        print 'd'*32
+        print 'd'*32
+        print 'd'*32
+        print 'd'*32
+        print 'd'*32
+        print 'd'*32
 
         results = self._run()
+        print 'e'*32
+        print 'e'*32
+        print 'e'*32
+        print 'e'*32
+        print 'e'*32
+        print 'e'*32
+        print 'e'*32
 
         status = results.get("status")
         output = results.get("output")

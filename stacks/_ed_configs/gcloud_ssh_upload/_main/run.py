@@ -33,6 +33,7 @@ def run(stackargs):
     default_values = {"name":stack.name}
     default_values["gcloud_project"] = stack.gcloud_project
     default_values["ssh_user"] = stack.ssh_user
+    default_values["convert_to_json"] = False
     
     inputargs = {"default_values":default_values}
     inputargs["automation_phase"] = "infrastructure"

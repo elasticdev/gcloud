@@ -1,4 +1,4 @@
 export PRIVATE_IP_PREFIX_LENGTH=20
-
-#export RESOURCE_TYPE=vpc
+export RESOURCE_TYPE=private_ip
 export CLOUD_PROVIDER=google_compute
+export TERRAFORM_RESOURCE_TYPE=google_compute_global_address

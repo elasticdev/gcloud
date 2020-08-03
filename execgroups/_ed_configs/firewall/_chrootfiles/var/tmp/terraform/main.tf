@@ -29,6 +29,7 @@ resource "google_compute_firewall" "http" {
   project = "${var.gcloud_project}"
   name    = "${var.vpc_name}-fw-http"
   network = "${var.vpc_name}"
+  direction   = "INGRESS"
 
   allow {
     protocol = "tcp"
@@ -42,12 +43,12 @@ resource "google_compute_firewall" "bastion" {
   project = "${var.gcloud_project}"
   name    = "${var.vpc_name}-fw-bastion"
   network = "${var.vpc_name}"
+  direction   = "INGRESS"
 
   allow {
     protocol = "tcp"
     ports    = ["22"]
   }
 
-  target_tags = ["ssh"]
+  target_tags = ["ssh","ssh-enabled"]
 }
-

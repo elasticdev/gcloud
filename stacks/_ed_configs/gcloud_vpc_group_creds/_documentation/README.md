@@ -1,11 +1,6 @@
 **Description**
 
-  - This stack creates a simple VPC on gcp
-  
-**Infrastructure**
-
-  - expects a dockerhost be available to be used for builds
-  - expects ec2 ecr to be created
+  - This stack creates a simple VPC on gcp where the credentials are provided through a user provided execution group
 
 **Required**
 

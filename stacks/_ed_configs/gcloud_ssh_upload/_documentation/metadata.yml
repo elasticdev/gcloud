@@ -1,15 +1,13 @@
-desc: The stack generates ssh_key and uploads it to ec2.
+desc: The stack generates ssh_key and uploads it to gcloud.
 release: 0.0.1
 categories: 
-   - aws
-   - ec2
+   - gcloud
    - ssh_key
    - cloud
    - public_cloud
 tags:
-   - ec2
    - ssh_key
    - host
-   - aws
+   - gcloud
    - infrastructure
    - featured_infrastructure

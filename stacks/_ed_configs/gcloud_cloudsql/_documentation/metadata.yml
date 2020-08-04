@@ -1,0 +1,16 @@
+desc: The stack create a cloudsql instance on gcloud
+release: 0.0.1
+categories: 
+   - gcloud
+   - cloudsql
+   - cloud
+   - public_cloud
+tags:
+   - cloudsql
+   - container 
+   - builder 
+   - server
+   - host
+   - gcloud
+   - infrastructure
+   - featured_infrastructure

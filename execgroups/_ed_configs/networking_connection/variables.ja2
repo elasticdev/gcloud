@@ -8,7 +8,7 @@ variable "vpc_self_link" {
     default = "{{ VPC_SELF_LINK }}"
 }
 
-variable "private_ip_prefix_length" {
-    description = "private_ip_prefix_length"
-    default = {{ PRIVATE_IP_PREFIX_LENGTH }}
+variable "global_address_name" {
+    description = "global_address_name"
+    default = {{ GLOBAL_ADDRESS_NAME }}
 }

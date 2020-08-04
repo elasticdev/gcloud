@@ -20,10 +20,10 @@ def run(stackargs):
     stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env")
     stack.parse.add_optional(key="public_cidr",default="10.10.10.0/24")
     stack.parse.add_optional(key="private_cidr",default="10.10.20.0/24")
-    stack.parse.add_optional(key="private_ip_block",default=False)
-    stack.parse.add_optional(key="private_ip_prefix_length",default=20)
+    stack.parse.add_optional(key="global_address_block",default=False)
+    stack.parse.add_optional(key="global_address_prefix_length",default=20)
 
-    stack.add_substack('elasticdev:::gcloud_vpc_private_ip')
+    stack.add_substack('elasticdev:::gcloud_vpc_global_address')
 
     # initialize variables
     stack.init_variables()
@@ -104,17 +104,17 @@ def run(stackargs):
         inputargs["stateful_id"] = subnet_state_id
         stack.subnets.insert(**inputargs)
 
-    # if private_ip is true, then we create the private_ip 
+    # if global_address is true, then we create the global_address 
     # parameters
-    if stack.private_ip_block not in null_values:
+    if stack.global_address_block not in null_values:
 
-        # call substack for private_ip since we need to look up self-link
+        # call substack for global_address since we need to look up self-link
         inputargs = {"vpc_name":stack.vpc_name}
         inputargs["gcloud_project"] = stack.gcloud_project
-        inputargs["private_ip_prefix_length"] = stack.private_ip_prefix_length
+        inputargs["global_address_prefix_length"] = stack.global_address_prefix_length
         inputargs["google_application_credentials"] = stack.google_application_credentials
         inputargs["docker_exec_env"] = stack.docker_exec_env
-        stack.gcloud_vpc_private_ip.insert(**inputargs)
+        stack.gcloud_vpc_global_address.insert(**inputargs)
 
     # CREATE FIREWALL
     firewall_state_id = stack.random_id(size=8)

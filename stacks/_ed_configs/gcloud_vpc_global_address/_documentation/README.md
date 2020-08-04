@@ -1,6 +1,6 @@
 **Description**
 
-  - This stack creates private_ip space for an existing vpc on gcp
+  - This stack creates global_address space for an existing vpc on gcp
 
 **Required**
 
@@ -15,4 +15,4 @@
 | *argument*           | *description*                            | *var type* |  *default*      |
 | ------------- | -------------------------------------- | -------- | ------------ |
 | docker_exec_env      | docker container to execute terraform templates    | string   | elasticdev/terraform-run-env         |
-| private_ip_prefix_length      | private ip prefix length    | integer   | 20         |
+| global_address_prefix_length      | private ip prefix length    | integer   | 20         |

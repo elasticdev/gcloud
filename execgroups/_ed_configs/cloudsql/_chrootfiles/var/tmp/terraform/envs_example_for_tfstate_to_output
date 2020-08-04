@@ -1,0 +1,4 @@
+export TERRAFORM_RESOURCE_TYPE=google_sql_database
+export RESOURCE_TYPE=cloudsql
+export CLOUD_PROVIDER=google_compute
+export DEFAULT_REGION=us-west1

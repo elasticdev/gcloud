@@ -14,13 +14,13 @@ def run(stackargs):
     # it should be in the directory /var/tmp/terraform
     stack.parse.add_required(key="google_application_credentials",default="/var/tmp/share/.creds/gcloud.json")
     stack.parse.add_required(key="auto_create_subnetworks",default="false")
+    stack.parse.add_required(key="global_address_block",default="null")
 
     # docker image to execute terraform with
     stack.parse.add_optional(key="gcloud_region",default="us-west1")
     stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env")
     stack.parse.add_optional(key="public_cidr",default="10.10.10.0/24")
     stack.parse.add_optional(key="private_cidr",default="10.10.20.0/24")
-    stack.parse.add_optional(key="global_address_block",default=False)
     stack.parse.add_optional(key="global_address_prefix_length",default=20)
 
     stack.add_substack('elasticdev:::gcloud_vpc_global_address')

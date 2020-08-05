@@ -1,3 +1,13 @@
+variable "global_address_name" {
+    description = "global_address_name"
+    default = "global-address-default-name"
+}
+
+variable "global_address_prefix_length" {
+    description = "global_address_prefix_length"
+    default = 20
+}
+
 variable "gcloud_project" {
     description = "gcloud_project"
     default = "{{ GCLOUD_PROJECT }}"
@@ -8,7 +18,3 @@ variable "vpc_self_link" {
     default = "{{ VPC_SELF_LINK }}"
 }
 
-variable "global_address_name" {
-    description = "global_address_name"
-    default = {{ GLOBAL_ADDRESS_NAME }}
-}

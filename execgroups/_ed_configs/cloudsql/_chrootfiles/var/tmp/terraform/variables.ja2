@@ -1,3 +1,43 @@
+variable "cloudsql_name" {
+    description = "Name of the cloudsql database"
+    default = "cloudsql-test"
+}
+
+variable "database_version" {
+    description = "database version"
+    default = "POSTGRES_11"
+}
+
+variable "database_tier" {
+    description = "database tier"
+    default = "db-f1-micro"
+}
+
+variable "availability_type" {
+    description = "availability_type"
+    default = "REGIONAL"
+}
+
+variable "disk_size" {
+    description = "disk_size"
+    default     = 10 
+}
+
+variable "db_root_user" {
+    description = "db_root_user"
+    default     = "root" 
+}
+
+variable "db_root_password" {
+    description = "db_root_password"
+    default     = "123admin456" 
+}
+
+variable "ipv4_enabled" {
+    description = "ipv4_enabled"
+    default     = false
+}
+
 variable "gcloud_project" {
     description = "gcloud_project"
     default = "{{ GCLOUD_PROJECT }}"
@@ -6,46 +46,6 @@ variable "gcloud_project" {
 variable "gcloud_region" {
     description = "gcloud_region"
     default = "{{ GCLOUD_REGION }}"
-}
-
-variable "cloudsql_name" {
-    description = "Name of the cloudsql database"
-    default = "{{ CLOUDSQL_NAME }}"
-}
-
-variable "database_version" {
-    description = "database version"
-    default = "{{ DATABASE_VERSION }}"
-}
-
-variable "database_tier" {
-    description = "database tier"
-    default = "{{ DATABASE_TIER }}"
-}
-
-variable "availability_type" {
-    description = "availability_type"
-    default = "{{ AVAILABILITY_TYPE }}"
-}
-
-variable "disk_size" {
-    description = "disk_size"
-    default = "{{ DISK_SIZE }}"
-}
-
-variable "db_root_user" {
-    description = "db_root_user"
-    default = "{{ DB_ROOT_USER }}"
-}
-
-variable "db_root_password" {
-    description = "db_root_password"
-    default = "{{ DB_ROOT_PASSWORD }}"
-}
-
-variable "ipv4_enabled" {
-    description = "ipv4_enabled"
-    default = "{{ IPV4_enabled }}"
 }
 
 variable "vpc_self_link" {

@@ -13,8 +13,8 @@ def run(stackargs):
     # this will set the GOOGLE_APPLICATION_CREDENTIALS environment variable relative to the shared docker volume
     # it should be in the directory /var/tmp/terraform
     stack.parse.add_required(key="google_application_credentials",default="/var/tmp/share/.creds/gcloud.json")
-    stack.parse.add_required(key="auto_create_subnetworks",default="null")
-    stack.parse.add_required(key="global_address_block",default="null")
+    stack.parse.add_required(key="auto_create_subnetworks",default="false")
+    stack.parse.add_required(key="global_address_block",default="false")
 
     # docker image to execute terraform with
     stack.parse.add_optional(key="gcloud_region",default="us-west1")

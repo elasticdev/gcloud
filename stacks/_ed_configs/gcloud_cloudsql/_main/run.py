@@ -17,7 +17,7 @@ def run(stackargs):
     stack.parse.add_required(key="disk_size",default=10)
     stack.parse.add_required(key="db_root_user",default="null")
     stack.parse.add_required(key="db_root_password",default="null")
-    stack.parse.add_required(key="ipv4_enabled",default="false")
+    stack.parse.add_required(key="ipv4_enabled",default="null")
 
     stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env")
 
@@ -76,8 +76,9 @@ def run(stackargs):
     env_vars["DB_ROOT_PASSWORD"] = stack.db_root_password
     env_vars["TF_VAR_db_root_password"] = stack.db_root_password
 
-    env_vars["IPV4_enabled"] = stack.ipv4_enabled
-    env_vars["TF_VAR_ipv4_enabled"] = stack.ipv4_enabled
+    if stack.ipv4_enabled:
+        env_vars["IPV4_enabled"] = "true"
+        env_vars["TF_VAR_ipv4_enabled"] = "true"
 
     env_vars["STATEFUL_ID"] = state_id
 

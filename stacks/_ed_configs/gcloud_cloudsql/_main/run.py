@@ -22,6 +22,7 @@ def run(stackargs):
     stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env")
 
     stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::gcloud_cloudsql","cloudsql")
+
     stack.add_substack('elasticdev:::publish_cloudsql_info')
 
     # initialize variables

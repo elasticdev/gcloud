@@ -130,12 +130,12 @@ def run(stackargs):
     if stack.global_address_block not in null_values:
 
         # call substack for global_address since we need to look up self-link
-        inputargs = {"vpc_name":stack.vpc_name}
-        inputargs["gcloud_project"] = stack.gcloud_project
-        inputargs["global_address_prefix_length"] = stack.global_address_prefix_length
-        inputargs["google_application_credentials"] = stack.google_application_credentials
-        inputargs["docker_exec_env"] = stack.docker_exec_env
-        stack.gcloud_vpc_global_address.insert(**inputargs)
+        default_values = {"vpc_name":stack.vpc_name}
+        default_values["gcloud_project"] = stack.gcloud_project
+        default_values["global_address_prefix_length"] = stack.global_address_prefix_length
+        default_values["google_application_credentials"] = stack.google_application_credentials
+        default_values["docker_exec_env"] = stack.docker_exec_env
+        stack.gcloud_vpc_global_address.insert(**{"default_values":default_values})
 
     # CREATE FIREWALL
     firewall_state_id = stack.random_id(size=8)

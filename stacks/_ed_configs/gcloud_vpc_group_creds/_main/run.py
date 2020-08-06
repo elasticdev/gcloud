@@ -50,7 +50,10 @@ def run(stackargs):
 
     env_vars = {"NAME":stack.vpc_name}
     env_vars["VPC_NAME"] = stack.vpc_name
+
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
+    env_vars["TF_VAR_gcloud_project"] = stack.gcloud_project
+
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True
@@ -80,10 +83,19 @@ def run(stackargs):
 
     env_vars = {"NAME":subnet_state_id}
     env_vars["VPC_NAME"] = stack.vpc_name
+
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
+    env_vars["TF_VAR_gcloud_project"] = stack.gcloud_project
+
     env_vars["GCLOUD_REGION"] = stack.gcloud_region
+    env_vars["TF_VAR_gcloud_region"] = stack.gcloud_region
+
     env_vars["PUBLIC_CIDR"] = stack.public_cidr
+    env_vars["TF_VAR_public_cidr"] = stack.public_cidr
+
     env_vars["PRIVATE_CIDR"] = stack.private_cidr
+    env_vars["TF_VAR_private_cidr"] = stack.private_cidr
+
     env_vars["STATEFUL_ID"] = subnet_state_id
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
@@ -113,11 +125,17 @@ def run(stackargs):
 
     env_vars = {"NAME":firewall_state_id}
     env_vars["VPC_NAME"] = stack.vpc_name
-    env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
-    env_vars["PUBLIC_CIDR"] = stack.public_cidr
-    env_vars["PRIVATE_CIDR"] = stack.private_cidr
-    env_vars["STATEFUL_ID"] = firewall_state_id
 
+    env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
+    env_vars["TF_VAR_gcloud_region"] = stack.gcloud_region
+
+    env_vars["PUBLIC_CIDR"] = stack.public_cidr
+    env_vars["TF_VAR_public_cidr"] = stack.public_cidr
+
+    env_vars["PRIVATE_CIDR"] = stack.private_cidr
+    env_vars["TF_VAR_private_cidr"] = stack.private_cidr
+
+    env_vars["STATEFUL_ID"] = firewall_state_id
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
     env_vars["USE_DOCKER"] = True

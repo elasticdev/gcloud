@@ -42,18 +42,43 @@ def run(stackargs):
     state_id = stack.random_id(size=8)
 
     env_vars = {"NAME":state_id}
+
     env_vars["VPC_NAME"] = stack.vpc_name
+    env_vars["TF_VAR_vpc_name"] = stack.vpc_name
+
     env_vars["VPC_SELF_LINK"] = vpc_info["self_link"]
+    env_vars["TF_VAR_vpc_self_link"] = vpc_info["self_link"]
+
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
+    env_vars["TF_VAR_gcloud_project"] = stack.gcloud_project
+
     env_vars["GCLOUD_REGION"] = stack.gcloud_region
+    env_vars["TF_VAR_gcloud_region"] = stack.gcloud_region
+
     env_vars["CLOUDSQL_NAME"] = stack.name
+    env_vars["TF_VAR_cloudsql_name"] = stack.name
+
     env_vars["DATABASE_VERSION"] = stack.database_version
+    env_vars["TF_VAR_database_version"] = stack.database_version
+
     env_vars["DATABASE_TIER"] = stack.database_tier
+    env_vars["TF_VAR_database_tier"] = stack.database_tier
+
     env_vars["AVAILABILITY_TYPE"] = stack.availability_type
+    env_vars["TF_VAR_availability_type"] = stack.availability_type
+    
     env_vars["DISK_SIZE"] = stack.disk_size
+    env_vars["TF_VAR_disk_size"] = stack.disk_size
+
     env_vars["DB_ROOT_USER"] = stack.db_root_user
+    env_vars["TF_VAR_db_root_user"] = stack.db_root_user
+
     env_vars["DB_ROOT_PASSWORD"] = stack.db_root_password
+    env_vars["TF_VAR_db_root_password"] = stack.db_root_password
+
     env_vars["IPV4_enabled"] = stack.ipv4_enabled
+    env_vars["TF_VAR_ipv4_enabled"] = stack.ipv4_enabled
+
     env_vars["STATEFUL_ID"] = state_id
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials

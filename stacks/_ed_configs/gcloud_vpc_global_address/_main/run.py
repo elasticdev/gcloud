@@ -31,11 +31,22 @@ def run(stackargs):
     global_address_state_id = stack.random_id(size=8)
 
     env_vars = {"NAME":global_address_state_id}
+
     env_vars["VPC_NAME"] = stack.vpc_name
+    env_vars["TF_VAR_vpc_name"] = stack.vpc_name
+
     env_vars["GLOBAL_ADDRESS_NAME"] = "{}-{}".format(stack.vpc_name,"private-ip")
+    env_vars["TF_VAR_global_addresss_name"] = "{}-{}".format(stack.vpc_name,"private-ip")
+
     env_vars["VPC_SELF_LINK"] = vpc_info["self_link"]
+    env_vars["TF_VAR_vpc_self_link"] = vpc_info["self_link"]
+
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
+    env_vars["TF_VAR_gcloud_project"] = stack.gcloud_project
+
     env_vars["GLOBAL_ADDRESS_PREFIX_LENGTH"] = stack.global_address_prefix_length
+    env_vars["TF_VAR_global_address_prefix_length"] = stack.global_address_prefix_length
+
     env_vars["STATEFUL_ID"] = global_address_state_id
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
@@ -61,10 +72,19 @@ def run(stackargs):
     networking_connection_state_id = stack.random_id(size=8)
 
     env_vars = {"NAME":networking_connection_state_id}
+
     env_vars["VPC_NAME"] = stack.vpc_name
+    env_vars["TF_VAR_vpc_name"] = stack.vpc_name
+
     env_vars["GLOBAL_ADDRESS_NAME"] = "{}-{}".format(stack.vpc_name,"private-ip")
+    env_vars["TF_VAR_global_addresss_name"] = "{}-{}".format(stack.vpc_name,"private-ip")
+
     env_vars["VPC_SELF_LINK"] = vpc_info["self_link"]
+    env_vars["TF_VAR_vpc_self_link"] = vpc_info["self_link"]
+
     env_vars["GCLOUD_PROJECT"] = stack.gcloud_project
+    env_vars["TF_VAR_gcloud_project"] = stack.gcloud_project
+
     env_vars["STATEFUL_ID"] = networking_connection_state_id
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
@@ -85,26 +105,5 @@ def run(stackargs):
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = networking_connection_state_id
     stack.networking_connection.insert(**inputargs)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     return stack.get_results()

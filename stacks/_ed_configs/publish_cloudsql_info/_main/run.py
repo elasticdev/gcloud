@@ -21,12 +21,12 @@ def run(stackargs):
     pipeline_env_var = stack.add_dict2dict(keys2pass,{},database_info,addNone=None)
 
     if stack.database_version:
-        pipeline_env_var["{}_INSTANCE_NAME".format(stack.engine.upper())] = stack.db_instance_name
-        pipeline_env_var["{}_ROOT_USER".format(stack.engine.upper())] = stack.db_root_user
-        pipeline_env_var["{}_ROOT_PASSWORD".format(stack.engine.upper())] = stack.db_root_password
-        pipeline_env_var["{}_HOST".format(stack.engine.upper())] = database_info["private_ip_address"]
-        pipeline_env_var["{}_CONNECTION_NAME".format(stack.engine.upper())] = database_info["connection_name"]
-        pipeline_env_var["{}_REGION".format(stack.engine.upper())] = stack.gcloud_region
+        pipeline_env_var["{}_INSTANCE_NAME".format(stack.database_version.upper())] = stack.db_instance_name
+        pipeline_env_var["{}_ROOT_USER".format(stack.database_version.upper())] = stack.db_root_user
+        pipeline_env_var["{}_ROOT_PASSWORD".format(stack.database_version.upper())] = stack.db_root_password
+        pipeline_env_var["{}_HOST".format(stack.database_version.upper())] = database_info["private_ip_address"]
+        pipeline_env_var["{}_CONNECTION_NAME".format(stack.database_version.upper())] = database_info["connection_name"]
+        pipeline_env_var["{}_REGION".format(stack.database_version.upper())] = stack.gcloud_region
     else:
         pipeline_env_var["DB_INSTANCE_NAME"] = stack.db_instance_name
         pipeline_env_var["DB_ROOT_USER"] = stack.db_root_user

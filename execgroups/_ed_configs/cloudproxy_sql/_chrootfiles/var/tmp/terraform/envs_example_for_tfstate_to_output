@@ -1,0 +1,4 @@
+export TERRAFORM_RESOURCE_TYPE=google_service_account
+export RESOURCE_TYPE=service_account
+export CLOUD_PROVIDER=google_compute
+export DEFAULT_REGION=us-west1

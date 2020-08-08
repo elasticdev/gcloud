@@ -55,8 +55,11 @@ def run(stackargs):
 
     # if you use a plural terraform_resource_types, then it assume it contains
     # multiple terraform types to be placed in the resource database
-    terraform_resource_types = {"google_compute_subnetwork":"subnet", "google_compute_instance":"server","google_service_account_key":"service_account"}
-    env_vars["TERRAFORM_RESOURCE_TYPES"] = json.dumps({"google_compute_subnetwork":"subnet", "google_compute_instance":"server","google_service_account_key":"service_account"})
+    terraform_resource_types = {"google_compute_subnetwork":"subnet",
+                                "google_compute_instance":"server",
+                                "google_service_account_key":"service_account"}
+
+    env_vars["TERRAFORM_RESOURCE_TYPES"] = json.dumps(terraform_resource_types)
     env_vars["RESOURCE_TAGS"] = [ "cloud_sql_proxy", "sql_proxy", "proxy", stack.name ]
 
     docker_env_fields_keys = env_vars.keys()

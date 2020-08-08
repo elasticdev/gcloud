@@ -25,6 +25,7 @@ def run(stackargs):
     stack.init_variables()
     stack.init_execgroups()
 
+    # retrieve resources
     vpc_info = stack.get_resource(name=stack.vpc_name,
                                   resource_type="vpc",
                                   must_exists=True)[0]

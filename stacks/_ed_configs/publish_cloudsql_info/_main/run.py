@@ -14,7 +14,7 @@ def run(stackargs):
     stack.init_variables()
 
     database_info = stack.get_resource(name=stack.db_instance_name,
-                                       resource_type="database",
+                                       resource_type="database_instance",
                                        must_exists=True)[0]
 
     keys2pass = ['private_ip_address','connection_name']

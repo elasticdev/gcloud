@@ -1,6 +1,7 @@
 resource "google_sql_database" "main" {
   project  = var.gcloud_project
-  name     = "main"
+  //name     = "${var.cloudsql_name}-main"
+  name     = var.cloudsql_name
   instance = google_sql_database_instance.main_primary.name
 }
 
@@ -8,6 +9,7 @@ resource "google_sql_database_instance" "main_primary" {
   region                       = var.gcloud_region
   project                      = var.gcloud_project
   name                         = var.cloudsql_name
+  //name                         = "${var.cloudsql_name}-instance"
   database_version             = var.database_version
 
   settings {

@@ -1,4 +1,7 @@
 export TERRAFORM_RESOURCE_TYPE=google_sql_database
 export RESOURCE_TYPE=cloudsql
+
+export TERRAFORM_RESOURCE_TYPES=google_sql_database:sql_database,google_sql_database_instance:sql_database_instance
+export TERRAFORM_RESOURCE_TYPES='{"google_sql_database":"database", "google_sql_database_instance":"database_instance"}'
 export CLOUD_PROVIDER=google_compute
 export DEFAULT_REGION=us-west1

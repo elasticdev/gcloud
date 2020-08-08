@@ -21,9 +21,9 @@ data "google_compute_subnetwork" "regional_subnet" {
 
 resource "google_compute_instance" "default" {
   project         = var.gcloud_project
-  name            = "${var.vpc_name}-${var.gcloud_region}-db-proxy"
+  name            = "${var.vpc_name}-${var.gcloud_region}-sql-${var.cloudsql_name}-proxy"
   machine_type    = "${var.instance_type}"
-  zone            = "${var.zone}"
+  zone            = "${var.gcloud_zone}"
   tags            = ["ssh","http"]
   desired_status  = "RUNNING"
   allow_stopping_for_update = true
@@ -40,7 +40,7 @@ resource "google_compute_instance" "default" {
   labels = {
     network = "${var.vpc_name}"
     vpc     = "${var.vpc_name}"
-    zone    = "${var.zone}"
+    zone    = "${var.gcloud_zone}"
     type    = "cloud_sql_proxy"
   }
 
@@ -49,9 +49,14 @@ resource "google_compute_instance" "default" {
   }
 
   metadata_startup_script = templatefile("${path.module}/run_cloud_sql_proxy.tpl", {
-                                         "db_instance_name"    = "db-proxy",
+                                         "db_instance_name"    = var.cloudsql_connection_name,
                                          "service_account_key" = base64decode(google_service_account_key.key.private_key),
                                          })
+
+                                         //"service_account_key" = var.service_account_private_key,
+                                         // db_instance_name = module.db.connection_name # e.g. my-project:us-central1:my-db
+                                         //"service_account_key" = module.serviceaccount.private_key,
+                                         //"db_instance_name"    = "db-proxy",
 
   network_interface {
     network    = var.vpc_name
@@ -64,7 +69,10 @@ resource "google_compute_instance" "default" {
   }
 
   service_account {
-    email = google_service_account.proxy_account.email
+    email = var.service_account_email_address
     scopes = ["cloud-platform"]
   }
+
+  //email = google_service_account.proxy_account.email
+
 }

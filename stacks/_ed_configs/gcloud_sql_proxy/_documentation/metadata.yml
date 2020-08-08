@@ -1,0 +1,20 @@
+desc: The stack create a sql_proxy forsql instance on gcloud
+release: 0.0.1
+categories: 
+   - gcloud
+   - cloudsql
+   - sql_proxy
+   - proxy
+   - cloud
+   - public_cloud
+tags:
+   - cloudsql
+   - sql_proxy
+   - proxy
+   - container 
+   - builder 
+   - server
+   - host
+   - gcloud
+   - infrastructure
+   - featured_infrastructure

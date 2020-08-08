@@ -88,8 +88,11 @@ def run(stackargs):
     env_vars["METHOD"] = "create"
 
     #env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_sql_database"
-    env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_sql_database_instance"
-    env_vars["RESOURCE_TYPE"] = "database"
+    #env_vars["RESOURCE_TYPE"] = "database"
+
+    # if you use a plural terraform_resource_types, then it assume it contains
+    # multiple terraform types to be placed in the resource database
+    env_vars["TERRAFORM_RESOURCE_TYPES"] = json.dumps({"google_sql_database":"database", "google_sql_database_instance":"database_instance"})
     env_vars["RESOURCE_TAGS"] = [ "cloudsql", "database", stack.name ]
 
     docker_env_fields_keys = env_vars.keys()

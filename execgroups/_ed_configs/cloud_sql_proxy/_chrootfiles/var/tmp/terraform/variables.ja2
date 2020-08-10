@@ -10,6 +10,7 @@ variable "gcloud_zone" {
 
 variable "disk_size" {
     description = "disk size in gb"
+    type        = number
     default = 10
 }
 
@@ -25,26 +26,32 @@ variable "image" {
 
 variable "gcloud_project" {
     description = "gcloud_project"
+    type        = string
 }
 
 variable "vpc_self_link" {
     description = "self_link of the vpc"
+    type        = string
 }
 
 variable "vpc_name" {
     description = "Name of the vpc network"
+    type        = string
 }
 
 variable "service_account_email_address" {
     description = "The email account for the service account used"
+    type        = string
 }
 
 variable "cloudsql_connection_name" {
     description = "The connection name for the database"
+    type        = string
 }
 
 variable "cloudsql_name" {
     description = "The name of the cloud sql database - needed to name the proxy"
+    type        = string
 }
 
 variable "service_account_private_key" {

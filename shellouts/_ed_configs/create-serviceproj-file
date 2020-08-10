@@ -3,11 +3,32 @@
 import os
 import json
 
+class MissingEnvironmentVariable(Exception):
+    pass
+
+# dup dhdskyeucnfhrt2634521 
+def get_tf_env_var(variable,default=None,must_exists=None):
+
+    _value = os.environ.get(variable)
+    if _value: return _value
+
+    _value = os.environ.get("TF_VAR_{}".format(variable))
+    if _value: return _value
+
+    _value = os.environ.get("TF_VAR_{}".format(variable.lower()))
+    if _value: return _value
+
+    _value = os.environ.get("TF_VAR_{}".format(variable.upper()))
+    if _value: return _value
+
+    if not must_exists: return
+    raise MissingEnvironmentVariable("{} does not exist".format(variable))
+
 def write_cloud_creds():
 
-    stateful_dir = os.environ.get("STATEFUL_DIR")
-    stateful_id = os.environ.get("STATEFUL_ID")
-    share_dir = os.environ.get("SHARE_DIR","/var/tmp/share")
+    stateful_dir = get_tf_env_var("STATEFUL_DIR",must_exists=True)
+    stateful_id = get_tf_env_var("STATEFUL_ID",must_exists=True)
+    share_dir = get_tf_env_var("STATEFUL_DIR",default="/var/tmp/share")
 
     if stateful_dir:
         print "stateful_dir explicitly set on environmental variable"
@@ -20,15 +41,15 @@ def write_cloud_creds():
     abs_google_application_credentials = os.path.join(stateful_dir,".creds","gcloud.json")
     creds_dir = os.path.dirname(abs_google_application_credentials)
 
-    project_id = os.environ["GCLOUD_PROJECT"]
-    private_key_id = os.environ["GCLOUD_PRIVATE_KEY_ID"]
-    private_key = os.environ["GCLOUD_PRIVATE_KEY"]
-    client_id = os.environ["GCLOUD_CLIENT_ID"]
-    client_email = os.environ["GCLOUD_CLIENT_EMAIL"]
-    client_x509_cert_url = os.environ["GCLOUD_CLIENT_X509_CERT_URL"] 
-    auth_uri = os.environ.get("GCLOUD_AUTH_URI","https://accounts.google.com/o/oauth2/auth")
-    token_uri = os.environ.get("GCLOUD_TOKEN_URI","https://oauth2.googleapis.com/token")
-    auth_provider = os.environ.get("GCLOUD_AUTH_PROVIDER","https://www.googleapis.com/oauth2/v1/certs")
+    project_id = get_tf_env_var("GCLOUD_PROJECT",must_exists=True)
+    private_key_id = get_tf_env_var("GCLOUD_PRIVATE_KEY_ID",must_exists=True)
+    private_key = get_tf_env_var("GCLOUD_PRIVATE_KEY",must_exists=True)
+    client_id = get_tf_env_var("GCLOUD_CLIENT_ID",must_exists=True)
+    client_email = get_tf_env_var("GCLOUD_CLIENT_EMAIL",must_exists=True)
+    client_x509_cert_url = get_tf_env_var("GCLOUD_CLIENT_X509_CERT_URL",must_exists=True)
+    auth_uri = get_tf_env_var("GCLOUD_AUTH_URI",default="https://accounts.google.com/o/oauth2/auth")
+    token_uri = get_tf_env_var("GCLOUD_TOKEN_URI",default="https://oauth2.googleapis.com/token")
+    auth_provider = get_tf_env_var("GCLOUD_AUTH_PROVIDER",default="https://www.googleapis.com/oauth2/v1/certs")
 
     values = { "type": "service_account",
                "auth_uri": auth_uri,

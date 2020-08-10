@@ -48,6 +48,8 @@ def run(stackargs):
     env_vars["TF_VAR_image"] = stack.image
     env_vars["TF_VAR_cloudsql_name"] = stack.name
     env_vars["TF_VAR_service_account_email_address"] = database_instance["service_account_email_address"]
+    env_vars["TF_VAR_stateful_id"] = state_id
+
     env_vars["STATEFUL_ID"] = state_id
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env

@@ -1,3 +1,17 @@
+terraform {
+  //required_version = "~> 0.12.24"
+  required_providers {
+    tfe         = "~> 0.16.0"
+    google      = "~> 3.17.0"
+    google-beta = "~> 3.17.0" 
+  }
+}
+
+provider "google-beta" {
+  region = var.gcloud_region
+  zone   = var.gcloud_zone
+}
+
 resource "google_service_account" "proxy_account" {
   project       = var.gcloud_project
   account_id    = "cloud-sql-proxy"

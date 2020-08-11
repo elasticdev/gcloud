@@ -48,6 +48,11 @@ variable "gcloud_region" {
     default = "{{ GCLOUD_REGION }}"
 }
 
+variable "gcloud_zone" {
+    description = "gcloud_zone"
+    default = "us-west1-b"
+}
+
 variable "vpc_self_link" {
     description = "self_link of the vpc"
     default = "{{ VPC_SELF_LINK }}"

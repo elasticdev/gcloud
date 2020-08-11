@@ -75,6 +75,7 @@ def run(stackargs):
     inputargs = {"name":stack.vpc_name}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = vpc_state_id
+    inputargs["human_description"] = 'Creating vpc "{}"'.format(stack.vpc_name)
     stack.vpc.insert(**inputargs)
 
     # if auto create subnets is not True, then we need to 
@@ -123,6 +124,7 @@ def run(stackargs):
         inputargs = {"name":subnet_state_id}
         inputargs["env_vars"] = json.dumps(env_vars)
         inputargs["stateful_id"] = subnet_state_id
+        inputargs["human_description"] = 'Creating subnets on vpc "{}"'.format(stack.vpc_name)
         stack.subnets.insert(**inputargs)
 
     # if global_address is true, then we create the global_address 
@@ -171,6 +173,7 @@ def run(stackargs):
     inputargs = {"name":firewall_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = firewall_state_id
+    inputargs["human_description"] = 'Creating firewall rules on vpc "{}"'.format(stack.vpc_name)
     stack.firewall.insert(**inputargs)
 
     return stack.get_results()

@@ -103,6 +103,8 @@ def run(stackargs):
     inputargs = {"name":state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = state_id
+    inputargs["human_description"] = 'Creating cloudsql "{}" on vpc "{}"'.format(stack.name,stack.vpc_name)
+
     stack.cloudsql.insert(**inputargs)
 
     # Insert variables into pipeline run

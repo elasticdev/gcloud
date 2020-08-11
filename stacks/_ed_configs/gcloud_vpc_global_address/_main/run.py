@@ -66,6 +66,7 @@ def run(stackargs):
     inputargs = {"name":global_address_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = global_address_state_id
+    inputargs["human_description"] = 'Allocating global address for vpc "{}"'.format(stack.vpc_name)
     stack.global_address.insert(**inputargs)
 
     # networking connection
@@ -104,6 +105,7 @@ def run(stackargs):
     inputargs = {"name":networking_connection_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = networking_connection_state_id
+    inputargs["human_description"] = 'Creating network connection/peering for vpc "{}"'.format(stack.vpc_name)
     stack.networking_connection.insert(**inputargs)
 
     return stack.get_results()

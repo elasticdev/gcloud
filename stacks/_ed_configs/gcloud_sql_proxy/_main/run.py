@@ -74,7 +74,7 @@ def run(stackargs):
     inputargs = {"name":state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
     inputargs["stateful_id"] = state_id
-    inputargs["human_description"] = "Executing Terraform to create cloud sql proxy"
+    inputargs["human_description"] = 'Executing Terraform to create cloud sql proxy on vpc "{}"'.format(stack.vpc_name)
 
     stack.cloud_sql_proxy.insert(**inputargs)
 

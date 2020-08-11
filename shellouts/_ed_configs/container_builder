@@ -84,11 +84,11 @@ class Main(GcloudCli):
             self.cleanup_docker_run()
             exit(9)
 
-        cmd = "docker run --rm -ti -v {}:{} --volumes-from {} google/cloud-sdk gcloud builds submit --config {} {}".format(self.inputargs["gcloud_src_dir"],
-                                                                                                                           self.inputargs["gcloud_src_dir"],
-                                                                                                                           self.gcloud_container_name,
-                                                                                                                           self.inputargs["gcloud_config_file_path"],
-                                                                                                                           self.inputargs["gcloud_src_dir"])
+        cmd = "docker run --rm -v {}:{} --volumes-from {} google/cloud-sdk gcloud builds submit --config {} {}".format(self.inputargs["gcloud_src_dir"],
+                                                                                                                       self.inputargs["gcloud_src_dir"],
+                                                                                                                       self.gcloud_container_name,
+                                                                                                                       self.inputargs["gcloud_config_file_path"],
+                                                                                                                       self.inputargs["gcloud_src_dir"])
 
         results = self.execute(cmd,exit_error=False,output_to_json=None)
         self.add_output(cmd=cmd,**results)

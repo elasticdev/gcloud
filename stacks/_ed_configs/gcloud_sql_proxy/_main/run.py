@@ -47,6 +47,7 @@ def run(stackargs):
     env_vars["TF_VAR_disk_size"] = stack.disk_size
     env_vars["TF_VAR_image"] = stack.image
     env_vars["TF_VAR_cloudsql_name"] = stack.name
+    #env_vars["TF_VAR_service_account_email_address"] = database_instance["service_account_email_address"]
     env_vars["TF_VAR_service_account_email_address"] = database_instance["service_account_email_address"]
     env_vars["TF_VAR_cloudsql_connection_name"] = database_instance["connection_name"]
     env_vars["TF_VAR_stateful_id"] = state_id
@@ -69,7 +70,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PRIVATE_KEY"
+    env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PRIVATE_KEY,GCLOUD_CLIENT_EMAIL"
 
     inputargs = {"name":state_id}
     inputargs["env_vars"] = json.dumps(env_vars)

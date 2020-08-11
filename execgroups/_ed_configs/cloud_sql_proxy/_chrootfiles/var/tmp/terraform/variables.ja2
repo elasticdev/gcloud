@@ -39,11 +39,6 @@ variable "vpc_name" {
     type        = string
 }
 
-variable "service_account_email_address" {
-    description = "The email account for the service account used"
-    type        = string
-}
-
 variable "cloudsql_connection_name" {
     description = "The connection name for the database"
     type        = string
@@ -52,6 +47,12 @@ variable "cloudsql_connection_name" {
 variable "cloudsql_name" {
     description = "The name of the cloud sql database - needed to name the proxy"
     type        = string
+}
+
+variable "service_account_email_address" {
+    description = "The email account for the service account used"
+    type        = string
+    default = "{{ GCLOUD_CLIENT_EMAIL }}"
 }
 
 variable "service_account_private_key" {

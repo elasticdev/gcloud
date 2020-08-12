@@ -54,7 +54,7 @@ def run(stackargs):
     env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
 
-    env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_global_address"
+    env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_service_networking_connection"
     env_vars["RESOURCE_TYPE"] = "global_address"
     env_vars["RESOURCE_TAGS"] = [ "global_address", stack.vpc_name ]
 

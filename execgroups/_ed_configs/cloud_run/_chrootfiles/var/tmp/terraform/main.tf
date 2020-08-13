@@ -6,6 +6,7 @@ provider "google" {
 resource "google_cloud_run_service" "app" {
   name     = var.app-name
   location = var.gcloud_region
+
   template {
     spec {
       containers {
@@ -13,6 +14,14 @@ resource "google_cloud_run_service" "app" {
       }
     }
   }
+
+  metadata {
+    annotations = {
+      "autoscaling.knative.dev/maxScale" = "100"
+      "run.googleapis.com/client-name"   = "terraform"
+    }
+  }
+
   traffic {
     percent         = 100
     latest_revision = true

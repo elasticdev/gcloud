@@ -64,7 +64,7 @@ def run(stackargs):
                                 "google_service_account_key":"service_account"}
 
     env_vars["TERRAFORM_RESOURCE_TYPES"] = json.dumps(terraform_resource_types)
-    env_vars["RESOURCE_TAGS"] = [ "cloud_sql_proxy", "sql_proxy", "proxy", stack.name ]
+    env_vars["RESOURCE_TAGS"] = "{},{},{},{}".format("cloud_sql_proxy","sql_proxy","proxy",stack.name)
 
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")

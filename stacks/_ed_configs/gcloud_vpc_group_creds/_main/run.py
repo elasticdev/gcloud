@@ -61,7 +61,7 @@ def run(stackargs):
 
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_network"
     env_vars["RESOURCE_TYPE"] = "vpc"
-    env_vars["RESOURCE_TAGS"] = [ "vpc", stack.vpc_name ]
+    env_vars["RESOURCE_TAGS"] = 'vpc,{}'.format(stack.vpc_name)
     #env_vars["RESOURCE_PARENT"] = True
 
     # determine what env vars to pass to 
@@ -106,7 +106,7 @@ def run(stackargs):
     env_vars["RESOURCE_MAP_KEYS"] = "ip_cidr_range:cidr,provider:cloud_provider"
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_subnetwork"
     env_vars["RESOURCE_TYPE"] = "subnet"
-    env_vars["RESOURCE_TAGS"] = [ "subnet", stack.vpc_name ]
+    env_vars["RESOURCE_TAGS"] = 'subnet,{}'.format(stack.vpc_name)
 
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
@@ -143,7 +143,7 @@ def run(stackargs):
 
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_firewall"
     env_vars["RESOURCE_TYPE"] = "firewall"
-    env_vars["RESOURCE_TAGS"] = [ "firewall", stack.vpc_name ]
+    env_vars["RESOURCE_TAGS"] = 'firewall,{}'.format(stack.vpc_name)
 
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")

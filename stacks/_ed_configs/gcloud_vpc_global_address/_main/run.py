@@ -56,7 +56,7 @@ def run(stackargs):
 
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_global_address"
     env_vars["RESOURCE_TYPE"] = "global_address"
-    env_vars["RESOURCE_TAGS"] = [ "global_address", stack.vpc_name ]
+    env_vars["RESOURCE_TAGS"] = "{},{}".format("global_address",stack.vpc_name)
 
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
@@ -95,7 +95,7 @@ def run(stackargs):
 
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_service_networking_connection"
     env_vars["RESOURCE_TYPE"] = "networking_connection"
-    env_vars["RESOURCE_TAGS"] = [ "networking_connection", stack.vpc_name ]
+    env_vars["RESOURCE_TAGS"] = "{},{}".format("networking_connection",stack.vpc_name)
 
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")

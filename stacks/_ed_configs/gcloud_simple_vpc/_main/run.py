@@ -70,7 +70,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME" 
+    env_vars["TF_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME" 
 
     inputargs = {"name":stack.vpc_name}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -119,7 +119,7 @@ def run(stackargs):
         docker_env_fields_keys = env_vars.keys()
         docker_env_fields_keys.remove("METHOD")
         env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-        env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR,GCLOUD_REGION"
+        env_vars["TF_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR,GCLOUD_REGION"
 
         inputargs = {"name":subnet_state_id}
         inputargs["env_vars"] = json.dumps(env_vars)
@@ -168,7 +168,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR"
+    env_vars["TF_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR"
 
     inputargs = {"name":firewall_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)

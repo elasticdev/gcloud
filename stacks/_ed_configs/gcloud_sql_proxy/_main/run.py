@@ -69,7 +69,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PRIVATE_KEY,GCLOUD_CLIENT_EMAIL"
+    env_vars["TF_TEMPLATE_VARS"] = "GCLOUD_PRIVATE_KEY,GCLOUD_CLIENT_EMAIL"
 
     inputargs = {"name":state_id}
     inputargs["env_vars"] = json.dumps(env_vars)

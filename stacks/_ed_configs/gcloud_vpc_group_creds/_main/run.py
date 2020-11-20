@@ -69,7 +69,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME" 
+    env_vars["TF_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME" 
     env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
     env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 
@@ -111,7 +111,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR,GCLOUD_REGION"
+    env_vars["TF_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR,GCLOUD_REGION"
     env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
     env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 
@@ -148,7 +148,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR"
+    env_vars["TF_TEMPLATE_VARS"] = "GCLOUD_PROJECT,VPC_NAME,PRIVATE_CIDR,PUBLIC_CIDR"
     env_vars["DESTROY_EXECGROUP"] = "elasticdev:::gcloud::base {}".format(stack.credential_group)
     env_vars["DESTROY_ENV_VARS"] = json.dumps({"GOOGLE_APPLICATION_CREDENTIALS":stack.google_application_credentials})
 

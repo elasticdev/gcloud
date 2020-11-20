@@ -61,7 +61,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "VPC_SELF_LINK,GCLOUD_PROJECT,VPC_NAME,GLOBAL_ADDRESS_NAME,GLOBAL_ADDRESS_PREFIX_LENGTH"
+    env_vars["TF_TEMPLATE_VARS"] = "VPC_SELF_LINK,GCLOUD_PROJECT,VPC_NAME,GLOBAL_ADDRESS_NAME,GLOBAL_ADDRESS_PREFIX_LENGTH"
 
     inputargs = {"name":global_address_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)
@@ -100,7 +100,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "VPC_SELF_LINK,GCLOUD_PROJECT,VPC_NAME,GLOBAL_ADDRESS_NAME"
+    env_vars["TF_TEMPLATE_VARS"] = "VPC_SELF_LINK,GCLOUD_PROJECT,VPC_NAME,GLOBAL_ADDRESS_NAME"
 
     inputargs = {"name":networking_connection_state_id}
     inputargs["env_vars"] = json.dumps(env_vars)

@@ -98,7 +98,7 @@ def run(stackargs):
     docker_env_fields_keys = env_vars.keys()
     docker_env_fields_keys.remove("METHOD")
     env_vars["DOCKER_ENV_FIELDS"] = ",".join(docker_env_fields_keys)
-    env_vars["OS_TEMPLATE_VARS"] = "VPC_NAME,VPC_SELF_LINK,GCLOUD_PROJECT,GCLOUD_REGION,CLOUDSQL_NAME,DATABASE_VERSION,DATABASE_TIER,AVAILABILITY_TYPE,DISK_SIZE,DB_ROOT_USER,DB_ROOT_PASSWORD,IPV4_enabled,STATEFUL_ID"
+    env_vars["TF_TEMPLATE_VARS"] = "VPC_NAME,VPC_SELF_LINK,GCLOUD_PROJECT,GCLOUD_REGION,CLOUDSQL_NAME,DATABASE_VERSION,DATABASE_TIER,AVAILABILITY_TYPE,DISK_SIZE,DB_ROOT_USER,DB_ROOT_PASSWORD,IPV4_enabled,STATEFUL_ID"
 
     inputargs = {"name":state_id}
     inputargs["env_vars"] = json.dumps(env_vars)

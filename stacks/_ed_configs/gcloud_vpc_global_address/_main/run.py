@@ -13,6 +13,7 @@ def run(stackargs):
 
     stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env")
     stack.parse.add_optional(key="global_address_prefix_length",default=20)
+    stack.parse.add_optional(key="use_docker",default=True,null_allowed=True)
 
     stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::global_address","global_address")
     stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::networking_connection","networking_connection")
@@ -51,8 +52,8 @@ def run(stackargs):
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
-    env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
+    if stack.use_docker: env_vars["use_docker".upper()] = True
 
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_global_address"
     env_vars["RESOURCE_TYPE"] = "global_address"
@@ -90,8 +91,8 @@ def run(stackargs):
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
-    env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
+    if stack.use_docker: env_vars["use_docker".upper()] = True
 
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_service_networking_connection"
     env_vars["RESOURCE_TYPE"] = "networking_connection"

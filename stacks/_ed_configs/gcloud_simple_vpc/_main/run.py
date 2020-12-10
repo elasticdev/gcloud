@@ -22,6 +22,7 @@ def run(stackargs):
     stack.parse.add_optional(key="public_cidr",default="10.10.10.0/24")
     stack.parse.add_optional(key="private_cidr",default="10.10.20.0/24")
     stack.parse.add_optional(key="global_address_prefix_length",default=20)
+    stack.parse.add_optional(key="use_docker",default=True,null_allowed=True)
 
     stack.add_substack('elasticdev:::gcloud_vpc_global_address')
 
@@ -52,8 +53,8 @@ def run(stackargs):
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
-    env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
+    if stack.use_docker: env_vars["use_docker".upper()] = True
 
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_network"
     env_vars["RESOURCE_TYPE"] = "vpc"
@@ -108,8 +109,8 @@ def run(stackargs):
 
         env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
         env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
-        env_vars["USE_DOCKER"] = True
         env_vars["METHOD"] = "create"
+        if stack.use_docker: env_vars["use_docker".upper()] = True
 
         env_vars["RESOURCE_MAP_KEYS"] = "ip_cidr_range:cidr,provider:cloud_provider"
         env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_subnetwork"
@@ -158,8 +159,8 @@ def run(stackargs):
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
-    env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
+    if stack.use_docker: env_vars["use_docker".upper()] = True
 
     env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_compute_firewall"
     env_vars["RESOURCE_TYPE"] = "firewall"

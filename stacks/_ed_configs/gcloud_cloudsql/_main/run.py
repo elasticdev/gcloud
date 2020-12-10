@@ -20,6 +20,7 @@ def run(stackargs):
     stack.parse.add_required(key="ipv4_enabled",default="null")
 
     stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env")
+    stack.parse.add_optional(key="use_docker",default=True,null_allowed=True)
 
     stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::cloudsql","cloudsql")
     stack.add_substack('elasticdev:::publish_cloudsql_info')
@@ -84,8 +85,8 @@ def run(stackargs):
 
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
-    env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
+    if stack.use_docker: env_vars["use_docker".upper()] = True
 
     #env_vars["TERRAFORM_RESOURCE_TYPE"] = "google_sql_database"
     #env_vars["RESOURCE_TYPE"] = "database"

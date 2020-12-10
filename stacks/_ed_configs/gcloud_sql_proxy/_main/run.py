@@ -18,6 +18,7 @@ def run(stackargs):
     stack.parse.add_required(key="image",default="cos-cloud/cos-stable")
 
     stack.parse.add_optional(key="docker_exec_env",default="elasticdev/terraform-run-env")
+    stack.parse.add_optional(key="use_docker",default=True,null_allowed=True)
 
     stack.add_execgroup("elasticdev:::gcloud::base elasticdev:::gcloud::cloud_sql_proxy","cloud_sql_proxy")
 
@@ -54,8 +55,8 @@ def run(stackargs):
     env_vars["STATEFUL_ID"] = state_id
     env_vars["GOOGLE_APPLICATION_CREDENTIALS"] = stack.google_application_credentials
     env_vars["DOCKER_EXEC_ENV"] = stack.docker_exec_env
-    env_vars["USE_DOCKER"] = True
     env_vars["METHOD"] = "create"
+    if stack.use_docker: env_vars["use_docker".upper()] = True
 
     # if you use a plural terraform_resource_types, then it assume it contains
     # multiple terraform types to be placed in the resource database
